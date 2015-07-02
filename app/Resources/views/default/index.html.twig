@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Homepage.
+{% endblock %}
+
+    {% block javascripts %}
+        {% javascripts
+        'assets/js/jquery.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}

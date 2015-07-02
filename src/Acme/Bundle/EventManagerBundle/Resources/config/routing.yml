@@ -1,0 +1,31 @@
+acme_event_manager_user_data:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/userdata.yml"
+    prefix:   /user_data
+
+acme_event_manager_admin_university:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/university.yml"
+    prefix:   /admin/university
+
+acme_event_manager_admin_paper_category:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/papercategory.yml"
+    prefix:   /admin/paper_category
+
+acme_event_manager_paper:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/paper.yml"
+    prefix:   /paper
+
+acme_event_manager_admin_faculty:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/faculty.yml"
+    prefix:   /admin/faculty
+
+acme_event_manager_event:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/event.yml"
+    prefix:   /admin/event
+
+acme_event_manager_country:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/country.yml"
+    prefix:   /admin/country
+
+acme_event_manager_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AcmeEventManagerBundle:Default:index }
