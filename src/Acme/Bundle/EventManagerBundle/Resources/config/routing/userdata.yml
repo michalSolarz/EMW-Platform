@@ -1,0 +1,30 @@
+user_data:
+    path:     /
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:index" }
+
+user_data_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:show" }
+
+user_data_new:
+    path:     /new
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:new" }
+
+user_data_create:
+    path:     /create
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:create" }
+    methods:  POST
+
+user_data_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:edit" }
+
+user_data_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:update" }
+    methods:  [POST, PUT]
+
+user_data_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:delete" }
+    methods:  [POST, DELETE]

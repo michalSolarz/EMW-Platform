@@ -1,0 +1,30 @@
+paper:
+    path:     /
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:index" }
+
+paper_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:show" }
+
+paper_new:
+    path:     /new
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:new" }
+
+paper_create:
+    path:     /create
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:create" }
+    methods:  POST
+
+paper_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:edit" }
+
+paper_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:update" }
+    methods:  [POST, PUT]
+
+paper_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:delete" }
+    methods:  [POST, DELETE]

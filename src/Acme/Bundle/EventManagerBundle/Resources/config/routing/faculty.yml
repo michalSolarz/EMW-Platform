@@ -1,0 +1,30 @@
+admin_faculty:
+    path:     /
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:index" }
+
+admin_faculty_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:show" }
+
+admin_faculty_new:
+    path:     /new
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:new" }
+
+admin_faculty_create:
+    path:     /create
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:create" }
+    methods:  POST
+
+admin_faculty_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:edit" }
+
+admin_faculty_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:update" }
+    methods:  [POST, PUT]
+
+admin_faculty_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:delete" }
+    methods:  [POST, DELETE]

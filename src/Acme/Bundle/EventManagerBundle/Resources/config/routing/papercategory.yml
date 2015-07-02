@@ -1,0 +1,30 @@
+admin_paper_category:
+    path:     /
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:index" }
+
+admin_paper_category_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:show" }
+
+admin_paper_category_new:
+    path:     /new
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:new" }
+
+admin_paper_category_create:
+    path:     /create
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:create" }
+    methods:  POST
+
+admin_paper_category_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:edit" }
+
+admin_paper_category_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:update" }
+    methods:  [POST, PUT]
+
+admin_paper_category_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmeEventManagerBundle:PaperCategory:delete" }
+    methods:  [POST, DELETE]

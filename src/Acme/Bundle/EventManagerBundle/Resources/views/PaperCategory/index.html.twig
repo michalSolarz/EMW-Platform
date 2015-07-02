@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>PaperCategory list</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Createdat</th>
+            <th>Lasteditedat</th>
+            <th>Status</th>
+            <th>Name</th>
+            <th>Universalpapercategory</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_paper_category_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.lastEditedAt %}{{ entity.lastEditedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.universalPaperCategory }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_paper_category_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_paper_category_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_paper_category_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}
