@@ -2,6 +2,7 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="country")
  * @ORM\Entity
  */
-class Country
+class Country implements StampedAtEditionEntityInterface
 {
     /**
      * @var integer
@@ -30,13 +31,6 @@ class Country
     private $createdAt;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastEditedAt;
-
-    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -45,12 +39,11 @@ class Country
     private $createdBy;
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedBy;
+    private $editions;
 
     /**
      * @var string
@@ -66,25 +59,6 @@ class Country
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getLastEditedAt()
-    {
-        return $this->lastEditedAt;
-    }
-
-    /**
-     * @param \DateTime $lastEditedAt
-     * @return PaperCategory
-     */
-    public function setLastEditedAt(\DateTime $lastEditedAt)
-    {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
     }
 
     /**
@@ -107,6 +81,21 @@ class Country
     }
 
     /**
+     * @return string
+     */
+    public function getEditions(){
+        return $this->editions;
+    }
+
+    /**
+     * @param string $editions
+     */
+    public function setEditions($editions)
+    {
+        $this->editions = $editions;
+    }
+
+    /**
      * @return User
      */
     public function getCreatedBy()
@@ -121,25 +110,6 @@ class Country
     public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getLastEditedBy()
-    {
-        return $this->lastEditedBy;
-    }
-
-    /**
-     * @param User $lastEditedBy
-     * @return PaperCategory
-     */
-    public function setLastEditedBy(User $lastEditedBy)
-    {
-        $this->lastEditedAt = $lastEditedBy;
 
         return $this;
     }
