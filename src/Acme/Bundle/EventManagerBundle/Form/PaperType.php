@@ -15,15 +15,11 @@ class PaperType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt')
-            ->add('lastEditedAt')
             ->add('status')
             ->add('title')
             ->add('coAuthors')
             ->add('researchAdvisor')
             ->add('content')
-            ->add('createdBy')
-            ->add('lastEditedBy')
             ->add('paperCategory')
             ->add('event');
     }

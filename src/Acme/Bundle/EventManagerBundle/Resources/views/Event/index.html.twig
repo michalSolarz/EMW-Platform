@@ -7,8 +7,6 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Createdat</th>
-            <th>Lasteditedat</th>
             <th>Registrationopening</th>
             <th>Registrationclosure</th>
             <th>Eventwithpapers</th>
@@ -26,8 +24,6 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('event_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.lastEditedAt %}{{ entity.lastEditedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.registrationOpening %}{{ entity.registrationOpening|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.registrationClosure %}{{ entity.registrationClosure|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.eventWithPapers }}</td>

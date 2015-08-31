@@ -1,30 +1,39 @@
-country:
+admin_country:
     path:     /
     defaults: { _controller: "AcmeEventManagerBundle:Country:index" }
 
-country_show:
+admin_country_show:
     path:     /{id}/show
     defaults: { _controller: "AcmeEventManagerBundle:Country:show" }
 
-country_new:
+admin_country_new:
     path:     /new
     defaults: { _controller: "AcmeEventManagerBundle:Country:new" }
 
-country_create:
+admin_country_create:
     path:     /create
     defaults: { _controller: "AcmeEventManagerBundle:Country:create" }
     methods:  POST
 
-country_edit:
+admin_country_edit:
     path:     /{id}/edit
     defaults: { _controller: "AcmeEventManagerBundle:Country:edit" }
 
-country_update:
+admin_country_update:
     path:     /{id}/update
     defaults: { _controller: "AcmeEventManagerBundle:Country:update" }
     methods:  [POST, PUT]
 
-country_delete:
+admin_country_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmeEventManagerBundle:Country:delete" }
     methods:  [POST, DELETE]
+
+admin_country_import_list_from_csv:
+    path:     /import-from-csv
+    defaults: { _controller: "AcmeEventManagerBundle:Country:importCountriesListFromCsv" }
+    methods:  [GET, POST]
+
+admin_country_export_list_from_csv:
+    path:     /export-from-csv
+    defaults: { _controller: "AcmeEventManagerBundle:Country:exportCountriesListFromCsv" }

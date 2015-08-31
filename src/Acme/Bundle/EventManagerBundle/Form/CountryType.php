@@ -15,11 +15,7 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt')
-            ->add('lastEditedAt')
-            ->add('name')
-            ->add('createdBy')
-            ->add('lastEditedBy');
+            ->add('name');
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\Bundle\EventManagerBundle\Entity\Faculty;
 use Acme\Bundle\EventManagerBundle\Form\FacultyType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Faculty controller.
@@ -42,6 +42,7 @@ class FacultyController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->get('acme_event_manager.creation_handler')->handleCreation($entity);
             $em->persist($entity);
             $em->flush();
 
@@ -188,6 +189,7 @@ class FacultyController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_faculty_edit', array('id' => $id)));
@@ -222,5 +224,47 @@ class FacultyController extends Controller
         }
 
         return $this->redirect($this->generateUrl('admin_faculty'));
+    }
+
+    public function importFacultiesListFromCsvAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('submitFile', 'file', array('label' => 'File to Submit'))
+            ->getForm();
+
+        if ($request->isMethod('POST')) {
+            $form->submit($request);
+
+            if ($form->isValid()) {
+
+                $file = $form->get('submitFile');
+
+                $results = $this->get('acme_event_manager.csv_parser')->parseUniqueEntriesCSV($file->getData());
+
+                $this->get('acme_event_manager.csv_import_handler')->importFacultyList($results);
+
+            }
+
+        }
+
+        return $this->render('@AcmeEventManager/Faculty/importFacultiesFromCsv.html.twig',
+            array('form' => $form->createView(),)
+        );
+    }
+
+    public function exportFacultiesListFromCsvAction()
+    {
+        $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
+        $filename = 'faculties-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';
+        $response = new StreamedResponse();
+        $response->setCallback(function () {
+            $this->get('acme_event_manager.csv_export_handler')->exportFacultyList();
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        return $response;
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\Bundle\EventManagerBundle\Entity\Event;
 use Acme\Bundle\EventManagerBundle\Form\EventType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event controller.
@@ -42,6 +41,7 @@ class EventController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->get('acme_event_manager.creation_handler')->handleCreation($entity);
             $em->persist($entity);
             $em->flush();
 
@@ -188,6 +188,7 @@ class EventController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('event_edit', array('id' => $id)));

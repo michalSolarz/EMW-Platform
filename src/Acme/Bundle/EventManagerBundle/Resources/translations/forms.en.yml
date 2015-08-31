@@ -1,0 +1,35 @@
+forms:
+  #UniversityDataType
+  user_data:
+    gender:
+      label: "Gender:"
+      choices:
+        female: "Female"
+        male: "Male"
+    nationality:
+      label: "Nationality:"
+    fieldOfStudies:
+      label: "Field of studies:"
+    yearOfStudies:
+      label: "Year of studies:"
+    phoneNumber:
+      label: "Phone number:"
+    isVegetarian:
+      label: "Are You a vegetarian?"
+    needsVisa:
+      label: "Do You need a visa?"
+    acceptedTerms:
+      label: "Do You accept terms & conditions?"
+    country:
+      label: "Country:"
+    university:
+      label: "University:"
+      child:
+        name:
+          label: "University name:"
+        address:
+          label: "University address:"
+    faculty:
+      label: "Faculty:"
+    submit:
+      label: "Add personal data."

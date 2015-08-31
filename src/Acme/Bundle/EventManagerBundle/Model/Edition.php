@@ -13,11 +13,12 @@ use Acme\Bundle\EventManagerBundle\Entity\User;
 
 class Edition {
     private $timestamp;
-    private $user;
+    private $editionAuthor;
 
-    public function __construct(\DateTime $timestamp, User $user){
+    public function __construct(\DateTime $timestamp, EditionAuthor $editionAuthor)
+    {
         $this->timestamp = $timestamp;
-        $this->user = $user;
+        $this->editionAuthor = $editionAuthor;
     }
 
     /**
@@ -31,8 +32,8 @@ class Edition {
     /**
      * @return User
      */
-    public function getUser()
+    public function getEditionAuthor()
     {
-        return $this->user;
+        return $this->editionAuthor;
     }
 }

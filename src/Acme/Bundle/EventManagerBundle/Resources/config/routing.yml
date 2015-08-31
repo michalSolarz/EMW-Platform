@@ -26,6 +26,11 @@ acme_event_manager_country:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/country.yml"
     prefix:   /admin/country
 
+acme_api_user_data:
+    resource: "@AcmeEventManagerBundle/Controller/ApiController/UserDataController.php"
+    prefix: /api/v1/
+    type: rest
+
 acme_event_manager_homepage:
     path:     /hello/{name}
     defaults: { _controller: AcmeEventManagerBundle:Default:index }

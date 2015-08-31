@@ -2,6 +2,9 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\MappedByUserInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_data")
  * @ORM\Entity
  */
-class UserData
+class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInterface, MappedByUserInterface
 {
     /**
      * @var integer
@@ -30,11 +33,12 @@ class UserData
     private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedAt;
+    private $editions;
+
 
     /**
      * @var User
@@ -43,14 +47,6 @@ class UserData
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     private $createdBy;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
-     */
-    private $lastEditedBy;
 
     /**
      * @ORM\Column(type="string")
@@ -106,11 +102,11 @@ class UserData
      */
     private $acceptedTerms;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $photoUniqueId;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $passportUniqueId;
     /**
@@ -144,7 +140,7 @@ class UserData
      * @param \DateTime $createdAt
      * @return UserData
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -152,26 +148,19 @@ class UserData
     }
 
     /**
-     * Get lastEditedAt
-     *
-     * @return \DateTime
+     * @return string
      */
-    public function getLastEditedAt()
+    public function getEditions()
     {
-        return $this->lastEditedAt;
+        return $this->editions;
     }
 
     /**
-     * Set lastEditedAt
-     *
-     * @param \DateTime $lastEditedAt
-     * @return UserData
+     * @param string $editions
      */
-    public function setLastEditedAt($lastEditedAt)
+    public function setEditions($editions)
     {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
+        $this->editions = $editions;
     }
 
     /**
@@ -446,29 +435,6 @@ class UserData
     public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get lastEditedBy
-     *
-     * @return User
-     */
-    public function getLastEditedBy()
-    {
-        return $this->lastEditedBy;
-    }
-
-    /**
-     * Set lastEditedBy
-     *
-     * @param User $lastEditedBy
-     * @return UserData
-     */
-    public function setLastEditedBy(User $lastEditedBy = null)
-    {
-        $this->lastEditedBy = $lastEditedBy;
 
         return $this;
     }

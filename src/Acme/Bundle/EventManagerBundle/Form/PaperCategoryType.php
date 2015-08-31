@@ -15,13 +15,9 @@ class PaperCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt')
-            ->add('lastEditedAt')
             ->add('status')
             ->add('name')
             ->add('universalPaperCategory')
-            ->add('createdBy')
-            ->add('lastEditedBy')
             ->add('event');
     }
 

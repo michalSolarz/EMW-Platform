@@ -1,4 +1,21 @@
 services:
+    acme_event_manager.edition_handler:
+        class: Acme\Bundle\EventManagerBundle\Model\EditionHandler
+        arguments: [@security.token_storage]
+    acme_event_manager.creation_handler:
+        class: Acme\Bundle\EventManagerBundle\Model\CreationHandler
+        arguments: [@security.token_storage]
+    acme_event_manager.csv_parser:
+        class: Acme\Bundle\EventManagerBundle\Util\CSVParser
+    acme_event_manager.csv_import_handler:
+        class: Acme\Bundle\EventManagerBundle\Util\CSVImportHandler
+        arguments: [@doctrine.orm.default_entity_manager, @acme_event_manager.creation_handler]
+    acme_event_manager.csv_export_handler:
+        class: Acme\Bundle\EventManagerBundle\Util\CSVExportHandler
+        arguments: [@doctrine.orm.default_entity_manager]
+    acme_event_manager.api_request_handler:
+        class: Acme\Bundle\EventManagerBundle\Model\ApiRequestHandler
+        arguments: [@doctrine.orm.default_entity_manager]
 #    acme_event_manager.example:
 #        class: Acme\Bundle\EventManagerBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

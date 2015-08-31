@@ -9,20 +9,19 @@
 namespace Acme\Bundle\EventManagerBundle\Model;
 
 
-use Doctrine\ORM\EntityRepository;
-
 class EditionsJsonDeserializer implements EditionsDeserializerInterface
 {
 
     private $editionsStorage;
-    private $entityRepository;
     private $jsonString;
 
-    public function __construct(EditionsStorageInterface $editionsStorage, EntityRepository $entityRepository, $jsonString)
+    public function __construct(EditionsStorageInterface $editionsStorage, $jsonString)
     {
         $this->editionsStorage = $editionsStorage;
-        $this->entityRepository = $entityRepository;
         $this->jsonString = $jsonString;
+        if (!$this->jsonString) {
+            $this->jsonString = '{}';
+        }
     }
 
     public function deserializeJson()
@@ -30,11 +29,11 @@ class EditionsJsonDeserializer implements EditionsDeserializerInterface
         $objects = json_decode($this->jsonString);
         if (property_exists($objects, 'editions')) {
             foreach ($objects->editions as $object) {
-                $user = $this->entityRepository->findOneBy(array('email' => $object->authorEmail));
                 $time = $object->timestamp->time;
                 $timeZone = $object->timestamp->timezone->timezone;
                 $timestamp = new \DateTime($time, new \DateTimeZone($timeZone));
-                $edition = new Edition($timestamp, $user);
+                $editionAuthor = new EditionAuthor($object->authorId, $object->authorEmail);
+                $edition = new Edition($timestamp, $editionAuthor);
                 $this->editionsStorage->addNewEdition($edition);
             }
         }

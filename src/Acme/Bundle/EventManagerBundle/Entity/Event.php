@@ -2,6 +2,8 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="event")
  * @ORM\Entity
  */
-class Event
+class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
     /**
      * @var integer
@@ -31,13 +33,6 @@ class Event
     private $createdAt;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastEditedAt;
-
-    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -46,12 +41,12 @@ class Event
     private $createdBy;
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedBy;
+    private $editions;
+
 
     /**
      * @var \DateTime
@@ -179,25 +174,6 @@ class Event
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getLastEditedAt()
-    {
-        return $this->lastEditedAt;
-    }
-
-    /**
-     * @param $lastEditedAt
-     * @return PaperCategory
-     */
-    public function setLastEditedAt(\DateTime $lastEditedAt)
-    {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
-    }
-
-    /**
      * @return User
      */
     public function getCreatedBy()
@@ -217,22 +193,19 @@ class Event
     }
 
     /**
-     * @return User
+     * @return string
      */
-    public function getLastEditedBy()
+    public function getEditions()
     {
-        return $this->lastEditedBy;
+        return $this->editions;
     }
 
     /**
-     * @param User $lastEditedBy
-     * @return PaperCategory
+     * @param string $editions
      */
-    public function setLastEditedBy(User $lastEditedBy)
+    public function setEditions($editions)
     {
-        $this->lastEditedAt = $lastEditedBy;
-
-        return $this;
+        $this->editions = $editions;
     }
 
     /**
@@ -427,18 +400,6 @@ class Event
     }
 
     /**
-     * @param ArrayCollection $eventParticipants
-     *
-     * @return Event
-     */
-    public function setEventParticipants($eventParticipants)
-    {
-        $this->eventParticipants = $eventParticipants;
-
-        return $this;
-    }
-
-    /**
      * Add users
      *
      * @param User $user
@@ -470,8 +431,20 @@ class Event
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEventParticipant()
+    public function getEventParticipants()
     {
         return $this->eventParticipants;
+    }
+
+    /**
+     * @param ArrayCollection $eventParticipants
+     *
+     * @return Event
+     */
+    public function setEventParticipants($eventParticipants)
+    {
+        $this->eventParticipants = $eventParticipants;
+
+        return $this;
     }
 }

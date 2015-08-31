@@ -28,3 +28,12 @@ admin_university_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmeEventManagerBundle:University:delete" }
     methods:  [POST, DELETE]
+
+admin_university_import_list_from_csv:
+    path:     /import-from-csv
+    defaults: { _controller: "AcmeEventManagerBundle:University:importUniversitiesListFromCsv" }
+    methods:  [GET, POST]
+
+admin_university_export_list_from_csv:
+    path:     /export-from-csv
+    defaults: { _controller: "AcmeEventManagerBundle:University:exportUniversitiesListFromCsv" }

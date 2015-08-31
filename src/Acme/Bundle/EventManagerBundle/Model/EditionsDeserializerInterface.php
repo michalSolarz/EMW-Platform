@@ -9,9 +9,7 @@
 namespace Acme\Bundle\EventManagerBundle\Model;
 
 
-use Doctrine\ORM\EntityRepository;
-
 interface EditionsDeserializerInterface
 {
-    public function __construct(EditionsStorageInterface $editionsStorage, EntityRepository $entityRepository,  $data);
+    public function __construct(EditionsStorageInterface $editionsStorage, $data);
 }

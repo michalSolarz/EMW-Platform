@@ -12,8 +12,13 @@ namespace Acme\Bundle\EventManagerBundle\Model;
 class Editions implements EditionsStorageInterface {
     private $editionsContainer;
 
-    public function __construct(){
-        $this->editionsContainer = new \SplObjectStorage();
+    public function __construct(\SplObjectStorage $editionsContainer = null)
+    {
+        if ($editionsContainer) {
+            $this->editionsContainer = $editionsContainer;
+        } else {
+            $this->editionsContainer = new \SplObjectStorage();
+        }
     }
 
     public function addNewEdition(Edition $edition){

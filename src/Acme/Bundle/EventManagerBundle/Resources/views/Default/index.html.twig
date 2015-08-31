@@ -2,12 +2,68 @@
 <html>
 <head>
     <title>Welcome to Symfony!</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<style>
+    .ui-autocomplete-loading {
+        background: white right center no-repeat;
+    }
+
+    #city {
+        width: 25em;
+    }
+</style>
+<script>
+    $(function () {
+        $("#auto").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
+                    dataType: 'json',
+                    data: {
+                        searchTerm: request.term,
+                        limit: 5,
+                        order: 'ASC'
+                    },
+                    success: function (data) {
+                        console.log(data.item);
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1,
+            dataType: 'json',
+            change: function (event, ui) {
+                console.log(ui.item.name);
+                $("#Id").val(ui.item ? ui.item.name : "");
+                if (ui.item) {
+                    $("#Info").val(ui.item.address);
+                }
+            },
+            select: function (event, ui) {
+                console.log(ui.item.name);
+                $("#Id").val(ui.item ? ui.item.name : "");
+                $("#Info").val(ui.item.address);
+            }
+        });
+    });
+
+    $("#Info, #Info2").keydown(function () {
+        $("#Id").val('');
+    });
+</script>
 </head>
 <body>
-<h1>Hello {{ name }}</h1>
 
-<ul id="navigation">
-    <li><a href="#">{{ name }}</a></li>
-</ul>
+<form id="form" method="post" action="/">
+    <input type="text" id="auto"/>
+    <input id="Id"/>
+    <input id="Info"/>
+    <input id="Info2"/>
+</form>
+
+
 </body>
 </html>

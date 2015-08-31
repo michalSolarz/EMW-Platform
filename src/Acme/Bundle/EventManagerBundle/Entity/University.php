@@ -2,6 +2,8 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="university")
  * @ORM\Entity
  */
-class University
+class University implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
     /**
      * @var integer
@@ -30,11 +32,12 @@ class University
     private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedAt;
+    private $editions;
+
 
     /**
      * @var User
@@ -44,13 +47,6 @@ class University
      */
     private $createdBy;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
-     */
-    private $lastEditedBy;
 
     /**
      * @var string
@@ -95,26 +91,6 @@ class University
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getLastEditedAt()
-    {
-        return $this->lastEditedAt;
-    }
-
-
-    /**
-     * @param $lastEditedAt
-     * @return PaperCategory
-     */
-    public function setLastEditedAt(\DateTime $lastEditedAt)
-    {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
-    }
-
-    /**
      * @return User
      */
     public function getCreatedBy()
@@ -134,22 +110,19 @@ class University
     }
 
     /**
-     * @return User
+     * @return string
      */
-    public function getLastEditedBy()
+    public function getEditions()
     {
-        return $this->lastEditedBy;
+        return $this->editions;
     }
 
     /**
-     * @param User $lastEditedBy
-     * @return PaperCategory
+     * @param string $editions
      */
-    public function setLastEditedBy(User $lastEditedBy)
+    public function setEditions($editions)
     {
-        $this->lastEditedAt = $lastEditedBy;
-
-        return $this;
+        $this->editions = $editions;
     }
 
     /**

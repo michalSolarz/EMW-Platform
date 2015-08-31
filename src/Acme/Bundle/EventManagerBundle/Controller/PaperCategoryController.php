@@ -2,11 +2,10 @@
 
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\Bundle\EventManagerBundle\Entity\PaperCategory;
 use Acme\Bundle\EventManagerBundle\Form\PaperCategoryType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * PaperCategory controller.
@@ -42,6 +41,7 @@ class PaperCategoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->get('acme_event_manager.creation_handler')->handleCreation($entity);
             $em->persist($entity);
             $em->flush();
 
@@ -188,6 +188,7 @@ class PaperCategoryController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_paper_category_edit', array('id' => $id)));

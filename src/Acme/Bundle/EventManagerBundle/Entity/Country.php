@@ -2,6 +2,7 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
 use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="country")
  * @ORM\Entity
  */
-class Country implements StampedAtEditionEntityInterface
+class Country implements StampedAtEditionEntityInterface, StampedAtCreationInterface
 {
     /**
      * @var integer

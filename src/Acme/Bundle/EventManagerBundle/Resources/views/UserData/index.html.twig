@@ -27,9 +27,9 @@
             <tr>
                 <td><a href="{{ path('user_data_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.lastEditedAt %}{{ entity.lastEditedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.gender }}</td>
                 <td>{{ entity.nationality }}</td>
+                <td>{{ entity.university.name }}</td>
                 <td>{{ entity.fieldOfStudies }}</td>
                 <td>{{ entity.yearOfStudies }}</td>
                 <td>{{ entity.phoneNumber }}</td>

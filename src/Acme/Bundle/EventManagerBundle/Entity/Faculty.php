@@ -2,7 +2,8 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="faculty")
  * @ORM\Entity
  */
-class Faculty
+class Faculty implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
     /**
      * @var integer
@@ -31,11 +32,12 @@ class Faculty
     private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedAt;
+    private $editions;
+
 
     /**
      * @var User
@@ -44,14 +46,6 @@ class Faculty
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     private $createdBy;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
-     */
-    private $lastEditedBy;
 
     /**
      * @var string
@@ -89,22 +83,19 @@ class Faculty
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getLastEditedAt()
+    public function getEditions()
     {
-        return $this->lastEditedAt;
+        return $this->editions;
     }
 
     /**
-     * @param $lastEditedAt
-     * @return PaperCategory
+     * @param string $editions
      */
-    public function setLastEditedAt(\DateTime $lastEditedAt)
+    public function setEditions($editions)
     {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
+        $this->editions = $editions;
     }
 
 
@@ -127,24 +118,6 @@ class Faculty
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getLastEditedBy()
-    {
-        return $this->lastEditedBy;
-    }
-
-    /**
-     * @param User $lastEditedBy
-     * @return PaperCategory
-     */
-    public function setLastEditedBy(User $lastEditedBy)
-    {
-        $this->lastEditedAt = $lastEditedBy;
-
-        return $this;
-    }
 
     /**
      * @return string

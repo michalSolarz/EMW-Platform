@@ -2,11 +2,10 @@
 
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\Bundle\EventManagerBundle\Entity\UserData;
 use Acme\Bundle\EventManagerBundle\Form\UserDataType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * UserData controller.
@@ -42,9 +41,9 @@ class UserDataController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->get('acme_event_manager.creation_handler')->handleCreation($entity);
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('user_data_show', array('id' => $entity->getId())));
         }
 
@@ -63,12 +62,14 @@ class UserDataController extends Controller
      */
     private function createCreateForm(UserData $entity)
     {
-        $form = $this->createForm(new UserDataType(), $entity, array(
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new UserDataType($entityManager), $entity, array(
             'action' => $this->generateUrl('user_data_create'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'forms.user_data.submit.label'));
 
         return $form;
     }
@@ -159,9 +160,10 @@ class UserDataController extends Controller
      */
     private function createEditForm(UserData $entity)
     {
-        $form = $this->createForm(new UserDataType(), $entity, array(
-            'action' => $this->generateUrl('user_data_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new UserDataType($entityManager), $entity, array(
+            'action' => $this->generateUrl('user_data_update', array('id' => $entity->getId()))
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -188,6 +190,7 @@ class UserDataController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('user_data_edit', array('id' => $id)));

@@ -2,11 +2,11 @@
 
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\Bundle\EventManagerBundle\Entity\Country;
 use Acme\Bundle\EventManagerBundle\Form\CountryType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Country controller.
@@ -25,7 +25,7 @@ class CountryController extends Controller
 
         $entities = $em->getRepository('AcmeEventManagerBundle:Country')->findAll();
 
-        return $this->render('AcmeEventManagerBundle:Country:index.html.twig', array(
+        return $this->render('@AcmeEventManager/Country/index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -42,10 +42,11 @@ class CountryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->get('acme_event_manager.creation_handler')->handleCreation($entity);
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('country_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_country_show', array('id' => $entity->getId())));
         }
 
         return $this->render('AcmeEventManagerBundle:Country:new.html.twig', array(
@@ -64,7 +65,7 @@ class CountryController extends Controller
     private function createCreateForm(Country $entity)
     {
         $form = $this->createForm(new CountryType(), $entity, array(
-            'action' => $this->generateUrl('country_create'),
+            'action' => $this->generateUrl('admin_country_create'),
             'method' => 'POST',
         ));
 
@@ -120,7 +121,7 @@ class CountryController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('country_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_country_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm();
@@ -160,7 +161,7 @@ class CountryController extends Controller
     private function createEditForm(Country $entity)
     {
         $form = $this->createForm(new CountryType(), $entity, array(
-            'action' => $this->generateUrl('country_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('admin_country_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -188,9 +189,10 @@ class CountryController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('country_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_country_edit', array('id' => $id)));
         }
 
         return $this->render('AcmeEventManagerBundle:Country:edit.html.twig', array(
@@ -221,6 +223,48 @@ class CountryController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('country'));
+        return $this->redirect($this->generateUrl('admin_country'));
+    }
+
+    public function importCountriesListFromCsvAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('submitFile', 'file', array('label' => 'File to Submit'))
+            ->getForm();
+
+        if ($request->isMethod('POST')) {
+            $form->submit($request);
+
+            if ($form->isValid()) {
+
+                $file = $form->get('submitFile');
+
+                $results = $this->get('acme_event_manager.csv_parser')->parseUniqueEntriesCSV($file->getData());
+
+                $this->get('acme_event_manager.csv_import_handler')->importCountryList($results);
+
+            }
+
+        }
+
+        return $this->render('@AcmeEventManager/Country/importCountriesFromCsv.html.twig',
+            array('form' => $form->createView(),)
+        );
+    }
+
+    public function exportCountriesListFromCsvAction()
+    {
+        $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
+        $filename = 'countries-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';
+        $response = new StreamedResponse();
+        $response->setCallback(function () {
+            $this->get('acme_event_manager.csv_export_handler')->exportCountryList();
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        return $response;
     }
 }

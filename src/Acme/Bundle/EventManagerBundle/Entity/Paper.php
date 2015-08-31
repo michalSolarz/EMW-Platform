@@ -2,6 +2,8 @@
 
 namespace Acme\Bundle\EventManagerBundle\Entity;
 
+use Acme\Bundle\EventManagerBundle\Model\StampedAtCreationInterface;
+use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="paper")
  * @ORM\Entity()
  */
-class Paper
+class Paper implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
     /**
      * @var integer
@@ -30,23 +32,18 @@ class Paper
     private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $lastEditedAt;
+    private $editions;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     private $createdBy;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
-     */
-    private $lastEditedBy;
 
     /**
      * @var integer
@@ -126,22 +123,19 @@ class Paper
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getLastEditedAt()
+    public function getEditions()
     {
-        return $this->lastEditedAt;
+        return $this->editions;
     }
 
     /**
-     * @param $lastEditedAt
-     * @return Paper
+     * @param string $editions
      */
-    public function setLastEditedAt(\DateTime $lastEditedAt)
+    public function setEditions($editions)
     {
-        $this->lastEditedAt = $lastEditedAt;
-
-        return $this;
+        $this->editions = $editions;
     }
 
     /**
@@ -163,24 +157,6 @@ class Paper
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getLastEditedBy()
-    {
-        return $this->lastEditedBy;
-    }
-
-    /**
-     * @param User $lastEditedBy
-     * @return Paper
-     */
-    public function setLastEditedBy(User $lastEditedBy)
-    {
-        $this->lastEditedAt = $lastEditedBy;
-
-        return $this;
-    }
 
     /**
      * @return int

@@ -23,12 +23,13 @@ class EditionsJsonSerializer implements EditionsSerializerInterface
         $i = 1;
         foreach ($this->editionsStorage as $edition) {
             $timestamp = $edition->getTimestamp();
-            $author = $edition->getUser();
+            $author = $edition->getEditionAuthor();
 
             $this->editions['editions']['edition ' . $i] = array('timestamp' => array(
                 'time' => $timestamp->format('Y-m-d h:i:s'),
                 'timezone' => $timestamp->getTimezone()),
-                'authorEmail' => $author->getEmail());
+                'authorId' => $author->getAuthorId(),
+                'authorEmail' => $author->getAuthorEmail());
             $i++;
         }
 

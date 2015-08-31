@@ -15,8 +15,6 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt')
-            ->add('lastEditedAt')
             ->add('registrationOpening')
             ->add('registrationClosure')
             ->add('eventWithPapers')
@@ -27,8 +25,6 @@ class EventType extends AbstractType
             ->add('eventEnd')
             ->add('eventIsVisible')
             ->add('eventUniqueHash')
-            ->add('createdBy')
-            ->add('lastEditedBy')
             ->add('eventParticipants');
     }
 
