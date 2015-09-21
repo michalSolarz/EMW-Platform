@@ -192,7 +192,7 @@ class UniversityController extends Controller
             $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_university', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_university'));
         }
 
         return $this->render('AcmeEventManagerBundle:University:edit.html.twig', array(

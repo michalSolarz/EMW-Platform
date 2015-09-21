@@ -40,7 +40,7 @@ class EventStatisticProvider
                 $subSum += $item['number'];
                 $results[$item['date']] = array('number' => $item['number'], 'subSum' => $subSum);
             }
-            return $results;
+            return array_reverse($results);
         } else
             return false;
     }
