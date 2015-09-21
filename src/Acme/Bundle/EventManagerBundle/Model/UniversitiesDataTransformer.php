@@ -30,11 +30,11 @@ class UniversitiesDataTransformer implements DataTransformerInterface
         return $country->getName();
     }
 
-    public function reverseTransform($countryString)
+    public function reverseTransform($facultyString)
     {
-        var_dump($countryString);
+        var_dump($facultyString);
         // no issue number? It's optional, so that's ok
-        if (!$countryString) {
+        if (!$facultyString) {
             return null;
         }
 
@@ -49,7 +49,7 @@ class UniversitiesDataTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An issue with number "%s" does not exist!',
-                $countryString
+                $facultyString
             ));
         }
 

@@ -6,6 +6,7 @@ use Acme\Bundle\EventManagerBundle\Entity\Event;
 use Acme\Bundle\EventManagerBundle\Form\EventType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Event controller.
@@ -22,7 +23,7 @@ class EventController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AcmeEventManagerBundle:Event')->findAll();
+        $entities = $em->getRepository('AcmeEventManagerBundle:Event')->getAllEventsWithParticipantsNumber();
 
         return $this->render('AcmeEventManagerBundle:Event:index.html.twig', array(
             'entities' => $entities,
@@ -45,7 +46,7 @@ class EventController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('event_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('event'));
         }
 
         return $this->render('AcmeEventManagerBundle:Event:new.html.twig', array(
@@ -223,5 +224,76 @@ class EventController extends Controller
         }
 
         return $this->redirect($this->generateUrl('event'));
+    }
+
+    public function eventStatisticsAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmeEventManagerBundle:Event')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+        $statisticsProvider = $this->get('acme_event_manager.event_statistic_provider');
+
+        return $this->render('@AcmeEventManager/Event/eventStatistics.html.twig', array('participants' => $statisticsProvider->getFullStatistics($entity),
+            'event' => $entity));
+    }
+
+    public function eventParticipantsAction(Request $request)
+    {
+        $id = $request->get('id');
+        $type = $request->get('type');
+        $period = $request->get('period');
+
+
+        $em = $this->getDoctrine()->getManager();
+        $participantsProvider = $this->get('acme_event_manager.event_participants_provider');
+
+        $entity = $em->getRepository('AcmeEventManagerBundle:Event')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+
+        return $this->render('@AcmeEventManager/Event/eventParticipants.html.twig', array(
+            'parameters' => array(
+                'id' => $id,
+                'type' => $type,
+                'period' => $period,
+            ),
+            'event' => $entity,
+            'participants' => $participantsProvider->provideParticipants($entity, $type, $period),
+        ));
+    }
+
+    public function exportParticipantsToCSVAction(Request $request)
+    {
+        $id = $request->get('id');
+        $type = $request->get('type');
+        $period = $request->get('period');
+
+        $exportHandler = $this->get('acme_event_manager.csv_export_handler');
+        $exportHandler->setParametersForEventParticipantsExport(array('id' => $id,
+            'type' => $type,
+            'period' => $period,
+        ));
+
+        $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
+        $filename = 'event-participants-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';
+        $response = new StreamedResponse();
+        $response->setCallback(function () {
+            $this->get('acme_event_manager.csv_export_handler')->exportEventParticipantsList();
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        return $response;
     }
 }

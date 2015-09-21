@@ -9,17 +9,19 @@
 namespace Acme\Bundle\EventManagerBundle\Model;
 
 
+use Acme\Bundle\EventManagerBundle\Entity\Faculty;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class FacultiesDataTransformer implements DataTransformerInterface
 {
     private $entityManager;
+    private $creationHandler;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, CreationHandler $creationHandler)
     {
         $this->entityManager = $entityManager;
+        $this->creationHandler = $creationHandler;
     }
 
     public function transform($country)
@@ -30,28 +32,25 @@ class FacultiesDataTransformer implements DataTransformerInterface
         return $country->getName();
     }
 
-    public function reverseTransform($countryString)
+    public function reverseTransform($facultyString)
     {
         // no issue number? It's optional, so that's ok
-        if (!$countryString) {
+        if (!$facultyString) {
             return null;
         }
 
-        $country = $this->entityManager
+        $faculty = $this->entityManager
             ->getRepository('AcmeEventManagerBundle:Faculty')
             // query for the issue with this id
-            ->findOneBy(array('name' => $countryString));
+            ->findOneBy(array('name' => $facultyString));
 
-        if (null === $country) {
-            // causes a validation error
-            // this message is not shown to the user
-            // see the invalid_message option
-            throw new TransformationFailedException(sprintf(
-                'An issue with number "%s" does not exist!',
-                $countryString
-            ));
+        if ($faculty === null) {
+            $facultyEntity = new Faculty();
+            $facultyEntity->setName($facultyString);
+            $this->creationHandler->handleCreation($facultyEntity);
+            $this->entityManager->persist($facultyEntity);
         }
 
-        return $country;
+        return $faculty;
     }
 }

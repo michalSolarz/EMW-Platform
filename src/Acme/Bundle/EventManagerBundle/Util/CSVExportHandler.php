@@ -9,15 +9,20 @@
 namespace Acme\Bundle\EventManagerBundle\Util;
 
 
+use Acme\Bundle\EventManagerBundle\Model\ParticipantsProvider;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CSVExportHandler
 {
     private $entityManager;
+    private $participantsProvider;
+    private $eventParticipantsParameters;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, ParticipantsProvider $participantsProvider)
     {
         $this->entityManager = $entityManager;
+        $this->participantsProvider = $participantsProvider;
     }
 
     public function exportCountryList()
@@ -44,11 +49,51 @@ class CSVExportHandler
         $qb->select('faculty.name')
             ->from('AcmeEventManagerBundle:Faculty', 'faculty');
         $query = $qb->getQuery();
-        $countryList = $query->getArrayResult();
+        $facultyList = $query->getArrayResult();
 
         $handle = fopen('php://output', 'w+');
-        foreach ($countryList as $country) {
-            fputcsv($handle, $country);
+        foreach ($facultyList as $faculty) {
+            fputcsv($handle, $faculty);
+        }
+        fclose($handle);
+        return $handle;
+    }
+
+    public function exportUniversityList()
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('university.name')
+            ->from('AcmeEventManagerBundle:University', 'university');
+        $query = $qb->getQuery();
+        $universityList = $query->getArrayResult();
+
+        $handle = fopen('php://output', 'w+');
+        foreach ($universityList as $university) {
+            fputcsv($handle, $university);
+        }
+        fclose($handle);
+        return $handle;
+    }
+
+    public function setParametersForEventParticipantsExport(array $parameters)
+    {
+        $this->eventParticipantsParameters = $parameters;
+    }
+
+    public function exportEventParticipantsList()
+    {
+        $event = $this->entityManager->getRepository('AcmeEventManagerBundle:Event')->find($this->eventParticipantsParameters['id']);
+
+        if (!$event) {
+            throw new NotFoundHttpException('Unable to found event with provided id');
+        }
+
+        $participants = $this->participantsProvider->provideParticipants($event, $this->eventParticipantsParameters['type'], $this->eventParticipantsParameters['period']);
+
+        $handle = fopen('php://output', 'w+');
+        foreach ($participants as $participant) {
+            fputcsv($handle, array($participant['username'], $participant['email'], $participant['name'], $participant['surname']));
         }
         fclose($handle);
         return $handle;

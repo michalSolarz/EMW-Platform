@@ -21,9 +21,9 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Event", inversedBy="eventParticipants")
+     * @ORM\OneToMany(targetEntity="EventParticipants", mappedBy="user")
      */
-    private $events;
+    private $eventParticipants;
 
     /**
      * @ORM\OneToOne(targetEntity="UserData", inversedBy="user")
@@ -54,12 +54,11 @@ class User extends BaseUser
      */
     public function addEvent(Event $event)
     {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
-            $event->addEventParticipant($this);
+        if ($this->eventParticipants->contains($event)) {
+            return;
         }
-
-        return $this;
+        $this->eventParticipants->add($event);
+        $event->addEventParticipant($this);
     }
 
     /**
@@ -69,6 +68,9 @@ class User extends BaseUser
      */
     public function removeEvent(Event $event)
     {
+        if (!$this->events->contains($event)) {
+            return;
+        }
         $this->events->removeElement($event);
         $event->removeEventParticipant($this);
     }

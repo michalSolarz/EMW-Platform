@@ -192,7 +192,7 @@ class UniversityController extends Controller
             $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_university_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_university', array('id' => $id)));
         }
 
         return $this->render('AcmeEventManagerBundle:University:edit.html.twig', array(
@@ -241,18 +241,19 @@ class UniversityController extends Controller
 
                 $results = $this->get('acme_event_manager.csv_parser')->parseUniqueEntriesCSV($file->getData());
 
-                $this->get('acme_event_manager.csv_import_handler')->importUniversityList($results);
+                if ($this->get('acme_event_manager.csv_import_handler')->importUniversityList($results))
+                    return $this->redirect($this->generateUrl('admin_university'));
 
             }
 
         }
 
-        return $this->render('@AcmeEventManager/Faculty/importFacultiesFromCsv.html.twig',
+        return $this->render('@AcmeEventManager/University/importUniversitiesFromCsv.html.twig',
             array('form' => $form->createView(),)
         );
     }
 
-    public function exportUniversitiesListFromCsvAction()
+    public function exportUniversitiesListToCsvAction()
     {
         $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
         $filename = 'universities-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';

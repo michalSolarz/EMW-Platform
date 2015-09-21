@@ -1,44 +1,32 @@
-{% extends '::base.html.twig' %}
+{% extends 'base-backend.html.twig' %}
 
-{% block body -%}
-    <h1>University</h1>
-
-    <table class="record_properties">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Createdat</th>
-            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Lasteditedat</th>
-            <td>{{ entity.lastEditedAt|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Address</th>
-            <td>{{ entity.address }}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('admin_university') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_university_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+{% block content %}
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    University
+                </h3>
+            </div>
+            <div class="panel-body">
+                <b>Id:</b> {{ entity.id }}<br>
+                <b>Created at:</b> {{ entity.createdAt|date('Y-m-d H:i:s') }}<br>
+                <b>Name:</b> {{ entity.name }}<br>
+                <b>Address:</b> {{ entity.address }}<br>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{ path('admin_university') }}">
+                            Back to the list
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_university_edit', { 'id': entity.id }) }}">
+                            Edit
+                        </a>
+                    </li>
+                    <li>{{ form(delete_form) }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

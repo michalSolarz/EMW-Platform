@@ -3,6 +3,7 @@
 namespace Acme\Bundle\EventManagerBundle\Form;
 
 use Acme\Bundle\EventManagerBundle\Model\CountriesDataTransformer;
+use Acme\Bundle\EventManagerBundle\Model\CreationHandler;
 use Acme\Bundle\EventManagerBundle\Model\FacultiesDataTransformer;
 use Acme\Bundle\EventManagerBundle\Model\UniversityDataTransformer;
 use Doctrine\ORM\EntityManager;
@@ -13,10 +14,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class UserDataType extends AbstractType
 {
     private $entityManager;
+    private $creationHandler;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, CreationHandler $creationHandler)
     {
         $this->entityManager = $entityManager;
+        $this->creationHandler = $creationHandler;
     }
 
     /**
@@ -70,8 +73,8 @@ class UserDataType extends AbstractType
                     'label' => 'forms.user_data.faculty.label'));
 
         $builder->get('country')->addModelTransformer(new CountriesDataTransformer($this->entityManager));
-        $builder->get('university')->addModelTransformer(new UniversityDataTransformer($this->entityManager));
-        $builder->get('faculty')->addModelTransformer(new FacultiesDataTransformer($this->entityManager));
+        $builder->get('university')->addModelTransformer(new UniversityDataTransformer($this->entityManager, $this->creationHandler));
+        $builder->get('faculty')->addModelTransformer(new FacultiesDataTransformer($this->entityManager, $this->creationHandler));
     }
 
     /**

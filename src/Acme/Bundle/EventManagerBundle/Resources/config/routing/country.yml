@@ -34,6 +34,6 @@ admin_country_import_list_from_csv:
     defaults: { _controller: "AcmeEventManagerBundle:Country:importCountriesListFromCsv" }
     methods:  [GET, POST]
 
-admin_country_export_list_from_csv:
-    path:     /export-from-csv
-    defaults: { _controller: "AcmeEventManagerBundle:Country:exportCountriesListFromCsv" }
+admin_country_export_list_to_csv:
+    path:     /export-to-csv
+    defaults: { _controller: "AcmeEventManagerBundle:Country:exportCountriesListToCsv" }

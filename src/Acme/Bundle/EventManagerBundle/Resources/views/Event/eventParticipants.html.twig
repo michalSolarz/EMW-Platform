@@ -1,0 +1,44 @@
+{% extends 'base-backend.html.twig' %}
+
+{% block content %}
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{ event.name }}
+                </h3>
+            </div>
+            <div class="panel-body">
+                {% if participants is null %}
+                    No participants data to show.
+                {% else %}
+                    <a href="{{ path('export_event_participants_to_csv', {'id':parameters.id,'type':parameters.type,'period':parameters.period}) }}">Export
+                        to *.csv.</a>
+                    {{ dump(parameters) }}
+                    <table class="table small">
+                        <thead>
+                        <tr>
+                            <th>Joined</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for participant in participants %}
+                            <tr>
+                                <td>{{ participant.joinedAt | date('Y-m-d H:i') }}</td>
+                                <td>{{ participant.username }}</td>
+                                <td>{{ participant.email }}</td>
+                                <td>{{ participant.name }}</td>
+                                <td>{{ participant.surname }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

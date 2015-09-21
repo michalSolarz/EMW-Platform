@@ -192,7 +192,7 @@ class CountryController extends Controller
             $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_country_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_country'));
         }
 
         return $this->render('AcmeEventManagerBundle:Country:edit.html.twig', array(
@@ -241,7 +241,8 @@ class CountryController extends Controller
 
                 $results = $this->get('acme_event_manager.csv_parser')->parseUniqueEntriesCSV($file->getData());
 
-                $this->get('acme_event_manager.csv_import_handler')->importCountryList($results);
+                if ($this->get('acme_event_manager.csv_import_handler')->importCountryList($results))
+                    return $this->redirect($this->generateUrl('admin_country'));
 
             }
 
@@ -252,10 +253,11 @@ class CountryController extends Controller
         );
     }
 
-    public function exportCountriesListFromCsvAction()
+    public function exportCountriesListToCsvAction()
     {
         $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
         $filename = 'countries-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';
+
         $response = new StreamedResponse();
         $response->setCallback(function () {
             $this->get('acme_event_manager.csv_export_handler')->exportCountryList();
