@@ -147,4 +147,58 @@ class UserDataController extends FOSRestController
         }
         return $this->handleView($view);
     }
+
+    /**
+     * Search for universities with passed letters.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *      200 = "Returned when successful",
+     *      404 = "Returned when the resource is not found"
+     *   }
+     * )
+     * @Annotations\QueryParam(name="action",
+     *                          requirements="(join|leave)",
+     *                          nullable=false,
+     *                          description="Execute action.")
+     * @Annotations\QueryParam(name="eventId",
+     *                          requirements="\d+",
+     *                          description="Event ID.")
+     *
+     *
+     * @param Request $request the request object
+     * @param ParamFetcherInterface $paramFetcher param fetcher service
+     *
+     * @return array
+     */
+    public function participateEventAction(Request $request, ParamFetcherInterface $paramFetcher)
+    {
+        $em = $this->get('doctrine.orm.default_entity_manager');
+        $participationHandler = $this->get('acme_event_manager.event_participation_handler');
+
+        $action = $paramFetcher->get('action');
+        $eventId = $paramFetcher->get('eventId');
+
+        $eventEntity = $em->getRepository('AcmeEventManagerBundle:Event')->find($eventId);
+
+        if (!$eventEntity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+        $data = false;
+
+        if ($action == 'join') {
+            $data = $participationHandler->joinEvent($eventEntity);
+        } elseif ($action == 'leave') {
+            $data = $participationHandler->leaveEvent($eventEntity);
+        }
+
+        $view = $this->view($data, 200);
+
+        if ($data == false) {
+            $view->setStatusCode(404);
+        }
+        return $this->handleView($view);
+    }
 }

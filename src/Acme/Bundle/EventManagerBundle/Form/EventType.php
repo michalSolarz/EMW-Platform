@@ -20,7 +20,7 @@ class EventType extends AbstractType
             ->add('eventWithPapers')
             ->add('papersRegistrationOpening')
             ->add('papersRegistrationClosure')
-            ->add('eventName')
+            ->add('name')
             ->add('eventBeginning')
             ->add('eventEnd')
             ->add('eventIsVisible')

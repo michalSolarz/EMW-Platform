@@ -7,12 +7,13 @@ use Acme\Bundle\EventManagerBundle\Model\StampedAtEditionEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Class Event
  * @package Acme\Bundle\EventManagerBundle\Entity
  *
  * @ORM\Table(name="event")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Acme\Bundle\EventManagerBundle\EntityRepository\EventRepository")
  */
 class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
@@ -88,7 +89,7 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
      *
      * @ORM\Column(type="string", nullable=false, length=255)
      */
-    private $eventName;
+    private $name;
 
     /**
      * @var \DateTime
@@ -133,16 +134,14 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     private $papers;
 
     /**
-     * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="events")
+     * @ORM\OneToMany(targetEntity="EventParticipants", mappedBy="event")
      */
     private $eventParticipants;
 
     public function __construct()
     {
         $this->papers = new ArrayCollection();
-        $this->eventParticipants = new ArrayCollection();
         $this->eventPaperCategories = new ArrayCollection();
     }
 
@@ -164,7 +163,7 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
 
     /**
      * @param $createdAt
-     * @return PaperCategory
+     * @return Event
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -183,7 +182,7 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
 
     /**
      * @param User $createdBy
-     * @return PaperCategory
+     * @return Event
      */
     public function setCreatedBy(User $createdBy)
     {
@@ -307,18 +306,18 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     /**
      * @return string
      */
-    public function getEventName()
+    public function getName()
     {
-        return $this->eventName;
+        return $this->name;
     }
 
     /**
-     * @param string $eventName
+     * @param string $name
      * @return Event
      */
-    public function setEventName($eventName)
+    public function setName($name)
     {
-        $this->eventName = $eventName;
+        $this->name = $name;
 
         return $this;
     }
@@ -407,12 +406,11 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
      */
     public function addEventParticipant(User $user)
     {
-        if (!$this->eventParticipants->contains($user)) {
-            $this->eventParticipants[] = $user;
-            $user->addEvent($this);
+        if ($this->eventParticipants->contains($user)) {
+            return;
         }
-
-        return $this;
+        $this->eventParticipants->add($user);
+        $user->addEvent($this);
     }
 
     /**
@@ -422,6 +420,9 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
      */
     public function removeEventParticipant(User $user)
     {
+        if (!$this->eventParticipants->contains($user)) {
+            return;
+        }
         $this->eventParticipants->removeElement($user);
         $user->removeEvent($this);
     }
@@ -447,4 +448,5 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
 
         return $this;
     }
+
 }

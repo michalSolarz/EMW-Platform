@@ -192,7 +192,7 @@ class FacultyController extends Controller
             $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_faculty_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_faculty'));
         }
 
         return $this->render('AcmeEventManagerBundle:Faculty:edit.html.twig', array(
@@ -241,7 +241,8 @@ class FacultyController extends Controller
 
                 $results = $this->get('acme_event_manager.csv_parser')->parseUniqueEntriesCSV($file->getData());
 
-                $this->get('acme_event_manager.csv_import_handler')->importFacultyList($results);
+                if ($this->get('acme_event_manager.csv_import_handler')->importFacultyList($results))
+                    $this->redirect($this->generateUrl('admin_faculty'));
 
             }
 
@@ -252,7 +253,7 @@ class FacultyController extends Controller
         );
     }
 
-    public function exportFacultiesListFromCsvAction()
+    public function exportFacultiesListToCsvAction()
     {
         $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
         $filename = 'faculties-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';

@@ -1,13 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends 'base-backend.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>Country edit</h1>
 
     {{ form(edit_form) }}
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('country') }}">
+            <a href="{{ path('admin_country') }}">
                 Back to the list
             </a>
         </li>

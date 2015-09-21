@@ -12,9 +12,18 @@ services:
         arguments: [@doctrine.orm.default_entity_manager, @acme_event_manager.creation_handler]
     acme_event_manager.csv_export_handler:
         class: Acme\Bundle\EventManagerBundle\Util\CSVExportHandler
-        arguments: [@doctrine.orm.default_entity_manager]
+        arguments: [@doctrine.orm.default_entity_manager, @acme_event_manager.event_participants_provider]
     acme_event_manager.api_request_handler:
         class: Acme\Bundle\EventManagerBundle\Model\ApiRequestHandler
+        arguments: [@doctrine.orm.default_entity_manager]
+    acme_event_manager.event_participation_handler:
+        class: Acme\Bundle\EventManagerBundle\Model\ParticipationInEventHandler
+        arguments: [@doctrine.orm.default_entity_manager, @security.token_storage, @acme_event_manager.creation_handler]
+    acme_event_manager.event_statistic_provider:
+        class: Acme\Bundle\EventManagerBundle\Model\EventStatisticProvider
+        arguments: [@doctrine.orm.default_entity_manager]
+    acme_event_manager.event_participants_provider:
+        class: Acme\Bundle\EventManagerBundle\Model\ParticipantsProvider
         arguments: [@doctrine.orm.default_entity_manager]
 #    acme_event_manager.example:
 #        class: Acme\Bundle\EventManagerBundle\Example

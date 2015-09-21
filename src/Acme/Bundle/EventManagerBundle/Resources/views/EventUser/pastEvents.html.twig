@@ -1,0 +1,56 @@
+{% extends 'base-frontend.html.twig' %}
+{% set panelsPerRow = 3 %}
+{% set i = 0 %}
+{% set currentEvent = 0 %}
+{% set rows = (pastEvents|length / panelsPerRow) | round(0, 'ceil') %}
+
+
+{% block left_sidebar %}
+    <li><a href="#">Dupa</a></li>
+{% endblock %}
+
+{% block content %}
+    {% for event in pastEvents %}
+        {% if i == 0 %}
+            <div class="row">
+        {% endif %}
+        {% set i = i + 1 %}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {{ event.name }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    Event begun:<br>
+                    {{ event.eventBeginning | date('d-m-Y') }}<br>
+                    Event ended:<br>
+                    {{ event.eventEnd | date('d-m-Y') }}<br>
+                    {% if (event.registrationOpening|date('d-m-Y H:i') <= 'now'|date('d-m-Y H:i', 'UTC')
+                    and 'now'|date('d-m-Y H:i', 'UTC') >= event.registrationClosure | date('d-m-Y H:i')) %}
+                        <hr>
+                        Registration opened since:<br>
+                        {{ event.registrationOpening | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        Registration closed at:<br>
+                        {{ event.registrationClosure | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                    {% endif %}
+                    {% if event.eventWithPapers %}
+                        <hr>
+                        Papers registration opened since:<br>
+                        {{ event.papersRegistrationOpening | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        Papers registration closed at:<br>
+                        {{ event.papersRegistrationClosure | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if i == panelsPerRow %}
+            </div>
+            {% set i = 0 %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+        {% block scripts %}
+            {{ parent() }}
+        {% endblock %}

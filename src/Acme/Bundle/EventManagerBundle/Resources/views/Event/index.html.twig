@@ -1,47 +1,42 @@
-{% extends '::base.html.twig' %}
+{% extends 'base-backend.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>Event list</h1>
 
-    <table class="records_list">
+    <table class="records_list table table-responsive small text-center">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Registrationopening</th>
-            <th>Registrationclosure</th>
-            <th>Eventwithpapers</th>
-            <th>Papersregistrationopening</th>
-            <th>Papersregistrationclosure</th>
-            <th>Eventname</th>
-            <th>Eventbeginning</th>
-            <th>Eventend</th>
-            <th>Eventisvisible</th>
-            <th>Eventuniquehash</th>
+            <th>Name</th>
+            <th>Beginning</th>
+            <th>End</th>
+            <th>Registration opening</th>
+            <th>Registration closure</th>
+            <th>Papers registration opening</th>
+            <th>Papers registration closure</th>
+            <th>Participants</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('event_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
                 <td>{% if entity.registrationOpening %}{{ entity.registrationOpening|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.registrationClosure %}{{ entity.registrationClosure|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.eventWithPapers }}</td>
                 <td>{% if entity.papersRegistrationOpening %}{{ entity.papersRegistrationOpening|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.papersRegistrationClosure %}{{ entity.papersRegistrationClosure|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.eventName }}</td>
                 <td>{% if entity.eventBeginning %}{{ entity.eventBeginning|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.eventEnd %}{{ entity.eventEnd|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.eventIsVisible }}</td>
-                <td>{{ entity.eventUniqueHash }}</td>
+                <td>{{ entity.eventParticipantsCount }}</td>
                 <td>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
-                            <a href="{{ path('event_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('event_statistics', { 'id': entity.id }) }}">show stats</a>
                         </li>
                         <li>
                             <a href="{{ path('event_edit', { 'id': entity.id }) }}">edit</a>
                         </li>
+
                     </ul>
                 </td>
             </tr>
@@ -50,7 +45,7 @@
     </table>
 
     <ul>
-        <li>
+        <li class="list-unstyled">
             <a href="{{ path('event_new') }}">
                 Create a new entry
             </a>

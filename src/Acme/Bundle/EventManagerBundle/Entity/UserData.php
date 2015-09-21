@@ -51,6 +51,16 @@ class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInte
     /**
      * @ORM\Column(type="string")
      */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private $gender;
     /**
      * @ORM\Column(type="string")
@@ -161,6 +171,38 @@ class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInte
     public function setEditions($editions)
     {
         $this->editions = $editions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param string $surname
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
     }
 
     /**

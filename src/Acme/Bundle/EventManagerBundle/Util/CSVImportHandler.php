@@ -28,19 +28,24 @@ class CSVImportHandler
 
     public function importCountryList(array $countryList)
     {
+        $repo = $this->entityManager->getRepository('AcmeEventManagerBundle:Country');
         foreach ($countryList as $country) {
-            $countryEntity = new Country();
-            $countryEntity->setName($country[0]);
-            $this->creationHandler->handleCreation($countryEntity);
-            $this->entityManager->persist($countryEntity);
+            if (!$repo->findOneBy(array('name' => $country[0]))) {
+                $countryEntity = new Country();
+                $countryEntity->setName($country[0]);
+                $this->creationHandler->handleCreation($countryEntity);
+                $this->entityManager->persist($countryEntity);
+            }
         }
         $this->entityManager->flush();
+        return true;
     }
 
     public function importFacultyList(array $facultyList)
     {
+        $repo = $this->entityManager->getRepository('AcmeEventManagerBundle:Faculty');
         foreach ($facultyList as $faculty) {
-            if (!$this->entityManager->getRepository('AcmeEventManagerBundle:Faculty')->findOneBy(array('name' => $faculty[0]))) {
+            if (!$repo->findOneBy(array('name' => $faculty[0]))) {
                 $facultyEntity = new Faculty();
                 $facultyEntity->setName($faculty[0]);
                 $this->creationHandler->handleCreation($facultyEntity);
@@ -48,12 +53,14 @@ class CSVImportHandler
             }
         }
         $this->entityManager->flush();
+        return true;
     }
 
     public function importUniversityList(array $universityList)
     {
+        $repo = $this->entityManager->getRepository('AcmeEventManagerBundle:University');
         foreach ($universityList as $university) {
-            if (!$this->entityManager->getRepository('AcmeEventManagerBundle:University')->findOneBy(array('name' => $university[0]))) {
+            if (!$repo->findOneBy(array('name' => $university[0]))) {
                 $universityEntity = new University();
 
                 $universityEntity->setName($university[0]);
@@ -64,5 +71,6 @@ class CSVImportHandler
             }
         }
         $this->entityManager->flush();
+        return true;
     }
 }

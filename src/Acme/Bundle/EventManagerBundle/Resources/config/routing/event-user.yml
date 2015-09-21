@@ -1,0 +1,15 @@
+list_visible_available_events:
+    path:     /
+    defaults: { _controller: AcmeEventManagerBundle:EventUser:index }
+
+join_to_event:
+    path:     /{id}/join
+    defaults: { _controller: AcmeEventManagerBundle:EventUser:joinToEvent }
+
+leave_event:
+    path:     /{id}/leave
+    defaults: { _controller: AcmeEventManagerBundle:EventUser:leaveEvent }
+
+past_events:
+    path:     /pastEvents
+    defaults: { _controller: AcmeEventManagerBundle:EventUser:pastEvents }

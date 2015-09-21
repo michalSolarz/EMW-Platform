@@ -1,5 +1,8 @@
-<form action="" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
+{% extends 'base-backend.html.twig' %}
+{% block content %}
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
 
-    <input type="submit"/>
-</form>
+        <input type="submit"/>
+    </form>
+{% endblock %}

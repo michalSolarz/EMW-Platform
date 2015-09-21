@@ -1,14 +1,24 @@
-{% extends '::base.html.twig' %}
+{% extends 'base-backend.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>Country list</h1>
 
-    <table class="records_list">
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('admin_country_new') }}">
+                Add new country.
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_country_export_list_to_csv') }}">Export to *.csv.</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_country_import_list_from_csv') }}">Import from *.csv.</a>
+        </li>
+    </ul>
+    <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Createdat</th>
-            <th>Lasteditedat</th>
             <th>Name</th>
             <th>Actions</th>
         </tr>
@@ -16,8 +26,6 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('admin_country_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.name }}</td>
                 <td>
                     <ul>
@@ -33,12 +41,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_country_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
 {% endblock %}

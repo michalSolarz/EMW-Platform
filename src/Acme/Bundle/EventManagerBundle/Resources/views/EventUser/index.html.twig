@@ -1,0 +1,125 @@
+{% extends 'base-frontend.html.twig' %}
+{% set panelsPerRow = 3 %}
+{% set i = 0 %}
+{% set currentEvent = 0 %}
+{% set rows = (events|length / panelsPerRow) | round(0, 'ceil') %}
+
+
+{% block left_sidebar %}
+    <li><a href="#">Dupa</a></li>
+{% endblock %}
+
+{% block content %}
+    {% for event in events %}
+        {% if i == 0 %}
+            <div class="row">
+        {% endif %}
+        {% set i = i + 1 %}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {{ event.name }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    Event beginning:<br>
+                    {{ event.eventBeginning | date('d-m-Y') }}<br>
+                    Event end:<br>
+                    {{ event.eventEnd | date('d-m-Y') }}<br>
+                    {% if (event.registrationOpening|date('d-m-Y H:i') <= 'now'|date('d-m-Y H:i', 'UTC')
+                    and 'now'|date('d-m-Y H:i', 'UTC') >= event.registrationClosure | date('d-m-Y H:i')) %}
+                        <hr>
+                        Registration opening:<br>
+                        {{ event.registrationOpening | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        Registration closure:<br>
+                        {{ event.registrationClosure | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        {% if eventParticipants.isParticipant(event, user) != true %}
+                            <a id="event-join-{{ event.id }}"
+                               class="btn btn-default center-block participate-button"
+                               href="{{ path('join_to_event', { 'id': event.id }) }}">Join to event</a>
+                        {% else %}
+                            <a id="event-leave-{{ event.id }}"
+                               class="btn btn-danger center-block participate-button"
+                               href="{{ path('leave_event', { 'id': event.id }) }}">Leave event</a>
+                        {% endif %}
+                    {% endif %}
+                    {% if event.eventWithPapers %}
+                        <hr>
+                        Papers registration opening:<br>
+                        {{ event.papersRegistrationOpening | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        Papers registration closure:<br>
+                        {{ event.papersRegistrationClosure | date('d-m-Y H:i') }} (UTC Timezone)<br>
+                        <a class="btn btn-default center-block" href="#">Submit your paper</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if i == panelsPerRow %}
+            </div>
+            {% set i = 0 %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+        {% block scripts %}
+            {{ parent() }}
+            <script>
+                $(document).ready(function () {
+                    clearLinks('a.participate-button');
+                    $('a.participate-button').click(function () {
+                        handleParticipation(this);
+                    });
+                });
+                var handleParticipation = function (clickedItem) {
+                    var id = $(clickedItem).attr('id');
+                    var parameters = id.split('-');
+                    var action = parameters[1];
+                    if (action != 'join' && action != 'leave')
+                        throw $.error('Unknown action' + action + '.');
+                    var eventId = parameters[2];
+                    $.ajax({
+                        url: "/sites/EMW-Platform/web/app_dev.php/api/v1/events/participate",
+                        dataType: 'json',
+                        data: {
+                            action: action,
+                            eventId: eventId
+                        },
+                        success: function () {
+                            modifyButton(clickedItem, action, eventId)
+                        }
+                    });
+                };
+                var clearLinks = function (elementSelector) {
+                    $(elementSelector).each(function () {
+                        $(this).attr('href', '#');
+                    });
+                };
+                var modifyButton = function (clickedItem, action, eventId) {
+                    var joinButton = {
+                        buttonId: 'event-join-' + eventId,
+                        buttonClass: 'btn btn-default center-block participate-button',
+                        buttonText: 'Join to event'
+                    };
+                    var leaveButton = {
+                        buttonId: 'event-leave-' + eventId,
+                        buttonClass: 'btn btn-danger center-block participate-button',
+                        buttonText: 'Leave event'
+                    };
+                    if (action === 'join') {
+                        clickedItem.id = leaveButton.buttonId;
+                        $(clickedItem).removeClass(joinButton.buttonClass);
+                        $(clickedItem).addClass(leaveButton.buttonClass);
+                        $(clickedItem).text(leaveButton.buttonText);
+                    }
+                    else if (action === 'leave') {
+                        clickedItem.id = joinButton.buttonId;
+                        $(clickedItem).removeClass(leaveButton.buttonClass);
+                        $(clickedItem).addClass(joinButton.buttonClass);
+                        $(clickedItem).text(joinButton.buttonText);
+                    }
+                    else {
+                        throw $.error('Unknown action' + action + '.')
+                    }
+                };
+            </script>
+        {% endblock %}

@@ -2,6 +2,10 @@ acme_event_manager_user_data:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/userdata.yml"
     prefix:   /user_data
 
+acme_event_user:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/event-user.yml"
+    prefix: /event
+
 acme_event_manager_admin_university:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/university.yml"
     prefix:   /admin/university

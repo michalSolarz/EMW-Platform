@@ -18,6 +18,11 @@ security:
                   csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
               logout:       true
               anonymous:    true
+              remember_me:
+                              key:      "%secret%"
+                              lifetime: 31536000 # 365 days in seconds
+                              path:     /
+                              domain:   ~ # Defaults to the current domain from $_SERVER
 #          auth:
 #              pattern: ^/api/*
 #              api_key: true

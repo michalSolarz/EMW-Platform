@@ -29,11 +29,11 @@ admin_faculty_delete:
     defaults: { _controller: "AcmeEventManagerBundle:Faculty:delete" }
     methods:  [POST, DELETE]
 
-country_import_list_from_csv:
+admin_faculty_import_list_from_csv:
     path:     /import-from-csv
     defaults: { _controller: "AcmeEventManagerBundle:Faculty:importFacultiesListFromCsv" }
     methods:  [GET, POST]
 
-country_export_list_from_csv:
-    path:     /export-from-csv
-    defaults: { _controller: "AcmeEventManagerBundle:Faculty:exportFacultiesListFromCsv" }
+admin_faculty_export_list_to_csv:
+    path:     /export-to-csv
+    defaults: { _controller: "AcmeEventManagerBundle:Faculty:exportFacultiesListToCsv" }

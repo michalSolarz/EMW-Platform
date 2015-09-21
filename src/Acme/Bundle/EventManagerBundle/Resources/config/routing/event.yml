@@ -2,10 +2,6 @@ event:
     path:     /
     defaults: { _controller: "AcmeEventManagerBundle:Event:index" }
 
-event_show:
-    path:     /{id}/show
-    defaults: { _controller: "AcmeEventManagerBundle:Event:show" }
-
 event_new:
     path:     /new
     defaults: { _controller: "AcmeEventManagerBundle:Event:new" }
@@ -28,3 +24,17 @@ event_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmeEventManagerBundle:Event:delete" }
     methods:  [POST, DELETE]
+
+event_statistics:
+    path:   /{id}/statistics
+    defaults: { _controller: "AcmeEventManagerBundle:Event:eventStatistics" }
+    methods: GET
+
+event_participants:
+    path:   /{id}/participants/{type}/{period}/
+    defaults: { _controller: "AcmeEventManagerBundle:Event:eventParticipants" }
+    methods: GET
+
+export_event_participants_to_csv:
+    path:   /{id}/participants/export-to-csv/{type}/{period}/
+    defaults: { _controller: "AcmeEventManagerBundle:Event:exportParticipantsToCSV" }

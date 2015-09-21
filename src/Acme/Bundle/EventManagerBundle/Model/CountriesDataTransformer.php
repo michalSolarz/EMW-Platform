@@ -30,17 +30,17 @@ class CountriesDataTransformer implements DataTransformerInterface
         return $country->getName();
     }
 
-    public function reverseTransform($countryString)
+    public function reverseTransform($facultyString)
     {
         // no issue number? It's optional, so that's ok
-        if (!$countryString) {
+        if (!$facultyString) {
             return null;
         }
 
         $country = $this->entityManager
             ->getRepository('AcmeEventManagerBundle:Country')
             // query for the issue with this id
-            ->findOneBy(array('name' => $countryString));
+            ->findOneBy(array('name' => $facultyString));
 
         if (null === $country) {
             // causes a validation error
@@ -48,7 +48,7 @@ class CountriesDataTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'An issue with number "%s" does not exist!',
-                $countryString
+                $facultyString
             ));
         }
 

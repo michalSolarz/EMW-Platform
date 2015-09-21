@@ -16,10 +16,12 @@ use Symfony\Component\Form\DataTransformerInterface;
 class UniversityDataTransformer implements DataTransformerInterface
 {
     private $entityManager;
+    private $creationHandler;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, CreationHandler $creationHandler)
     {
         $this->entityManager = $entityManager;
+        $this->creationHandler = $creationHandler;
     }
 
     public function transform($country)
@@ -42,6 +44,7 @@ class UniversityDataTransformer implements DataTransformerInterface
             $universityEntity = new University();
             $universityEntity->setName($universityString['name']);
             $universityEntity->setAddress($universityString['address']);
+            $this->creationHandler->handleCreation($universityEntity);
             $this->entityManager->persist($universityEntity);
         }
 
