@@ -50,7 +50,11 @@
                         {{ event.papersRegistrationOpening | date('d-m-Y H:i') }} (UTC Timezone)<br>
                         Papers registration closure:<br>
                         {{ event.papersRegistrationClosure | date('d-m-Y H:i') }} (UTC Timezone)<br>
-                        <a class="btn btn-default center-block" href="#">Submit your paper</a>
+                        {% if papersRepository.possibleToAddPaper(event, user) %}
+                            <a class="btn btn-default center-block"
+                               href="{{ path('add_paper', { 'eventId': event.id }) }}">Submit
+                                your paper</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

@@ -15,10 +15,16 @@ class PaperCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status')
             ->add('name')
-            ->add('universalPaperCategory')
-            ->add('event');
+            ->add('universalPaperCategory', 'checkbox',
+                array(
+                    'required' => false,
+                    'value' => true))
+            ->add('event', 'entity',
+                array(
+                    'required' => false,
+                    'placeholder' => 'Not assigned to event',
+                    'class' => 'Acme\Bundle\EventManagerBundle\Entity\Event'));
     }
 
     /**

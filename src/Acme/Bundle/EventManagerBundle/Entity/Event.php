@@ -85,6 +85,13 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     private $papersRegistrationClosure;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="smallint", nullable=true, options={"default" = 1})
+     */
+    private $papersPerParticipant;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=false, length=255)
@@ -143,6 +150,30 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     {
         $this->papers = new ArrayCollection();
         $this->eventPaperCategories = new ArrayCollection();
+    }
+
+    function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Event
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -253,7 +284,6 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
         return $this->eventWithPapers;
     }
 
-
     /**
      * @param bool $eventWithPapers
      * @return Event
@@ -304,22 +334,19 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getName()
+    public function getPapersPerParticipant()
     {
-        return $this->name;
+        return $this->papersPerParticipant;
     }
 
     /**
-     * @param string $name
-     * @return Event
+     * @param int $papersPerParticipant
      */
-    public function setName($name)
+    public function setPapersPerParticipant($papersPerParticipant)
     {
-        $this->name = $name;
-
-        return $this;
+        $this->papersPerParticipant = $papersPerParticipant;
     }
 
     /**

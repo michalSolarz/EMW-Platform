@@ -14,6 +14,7 @@ class EventUserController extends Controller
         return $this->render('AcmeEventManagerBundle:EventUser:index.html.twig', array(
             'events' => $events,
             'eventParticipants' => $em->getRepository('AcmeEventManagerBundle:EventParticipants'),
+            'papersRepository' => $em->getRepository('AcmeEventManagerBundle:Paper'),
             'user' => $this->getUser()
         ));
     }

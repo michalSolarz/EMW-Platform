@@ -14,7 +14,7 @@ class DefaultController extends Controller
         $event = $em->getRepository('AcmeEventManagerBundle:Event')->find(1);
 //        $repo = $em->getRepository('AcmeEventManagerBundle:EventParticipants')->countParticipantsFromDaysBefore($event, 1000);
         $user = $this->getUser();
-        $a = $em->getRepository('AcmeEventManagerBundle:EventParticipants')->getAllParticipants($event);
+        $a = $em->getRepository('AcmeEventManagerBundle:Paper')->countParticipantPapers($user, $event);
 //        $b = $a->provideParticipants($event, 'a', 0);
 //        $repo = $em->getRepository('AcmeEventManagerBundle:EventParticipants');
 //        $participants = $repo->countAllParticipants($event);

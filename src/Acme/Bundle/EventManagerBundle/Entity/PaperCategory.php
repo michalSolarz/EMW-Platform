@@ -50,13 +50,6 @@ class PaperCategory implements StampedAtCreationInterface, StampedAtEditionEntit
     private $createdBy;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(type="smallint", nullable=false)
-     */
-    private $status;
-
-    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
@@ -87,6 +80,7 @@ class PaperCategory implements StampedAtCreationInterface, StampedAtEditionEntit
     {
         $this->papers = new ArrayCollection();
     }
+
 
     /**
      * @return int
@@ -150,25 +144,6 @@ class PaperCategory implements StampedAtCreationInterface, StampedAtEditionEntit
     public function setEditions($editions)
     {
         $this->editions = $editions;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param integer $status
-     * @return PaperCategory
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
     }
 
     /**

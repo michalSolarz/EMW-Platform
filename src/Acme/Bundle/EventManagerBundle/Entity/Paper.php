@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package Acme\Bundle\EventManagerBundle\Entity
  *
  * @ORM\Table(name="paper")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Acme\Bundle\EventManagerBundle\EntityRepository\PaperRepository")
  */
 class Paper implements StampedAtCreationInterface, StampedAtEditionEntityInterface
 {
