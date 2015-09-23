@@ -16,18 +16,27 @@ class EventStatisticProvider
 {
     private $entityManager;
     private $eventParticipantsRepository;
+    private $paperRepository;
 
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->eventParticipantsRepository = $this->entityManager->getRepository('AcmeEventManagerBundle:EventParticipants');
+        $this->paperRepository = $this->entityManager->getRepository('AcmeEventManagerBundle:Paper');
     }
 
     public function getFullStatistics(Event $event)
     {
-        return array('last12Hours' => $this->countSubSumOfParticipants($this->eventParticipantsRepository->countParticipantsFromHoursBefore($event, 12)),
-            'last31Days' => $this->countSubSumOfParticipants($this->eventParticipantsRepository->countParticipantsFromDaysBefore($event, 31)),
-            'totalAmount' => $this->eventParticipantsRepository->countAllParticipants($event),
+        return array(
+            'participants' => array(
+                'last12Hours' => $this->countSubSumOfParticipants($this->eventParticipantsRepository->countParticipantsFromHoursBefore($event, 12)),
+                'last31Days' => $this->countSubSumOfParticipants($this->eventParticipantsRepository->countParticipantsFromDaysBefore($event, 31)),
+                'totalAmount' => $this->eventParticipantsRepository->countAllParticipants($event),),
+            'papers' => array(
+                'last12Hours' => $this->countSubSumOfParticipants($this->paperRepository->countPapersFromHoursBefore($event, 12)),
+                'last31Days' => $this->countSubSumOfParticipants($this->paperRepository->countPapersFromDaysBefore($event, 31)),
+                'totalAmount' => $this->paperRepository->countAllPapers($event),
+            ),
         );
     }
 

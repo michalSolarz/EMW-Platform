@@ -239,7 +239,7 @@ class EventController extends Controller
 
         $statisticsProvider = $this->get('acme_event_manager.event_statistic_provider');
 
-        return $this->render('@AcmeEventManager/Event/eventStatistics.html.twig', array('participants' => $statisticsProvider->getFullStatistics($entity),
+        return $this->render('@AcmeEventManager/Event/eventStatistics.html.twig', array('statistics' => $statisticsProvider->getFullStatistics($entity),
             'event' => $entity));
     }
 

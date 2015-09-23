@@ -19,6 +19,7 @@ class PaperRepository extends EntityRepository
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         if ($this->countParticipantPapers($event, $user) < $event->getPapersPerParticipant() &&
+            $event->getEventWithPapers() &&
             $event->getPapersRegistrationOpening() <= $now &&
             $now <= $event->getPapersRegistrationClosure()
         )
@@ -27,7 +28,7 @@ class PaperRepository extends EntityRepository
             return false;
     }
 
-    public function countParticipantPapers(Event $event, User $user)
+    private function countParticipantPapers(Event $event, User $user)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
             ->select('count(papers)')
@@ -40,5 +41,67 @@ class PaperRepository extends EntityRepository
             ))
             ->getQuery();
         return $query->getSingleScalarResult();
+    }
+
+    public function countPapersFromHoursBefore(Event $event, $hoursAmount)
+    {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $addedAfter = $now->modify('-' . $hoursAmount . ' hour');
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('substring(papers.createdAt, 1, 13) as date', 'count(papers.id) as number')
+            ->from('AcmeEventManagerBundle:Paper', 'papers')
+            ->where('papers.event = :event')
+            ->andWhere('papers.createdAt >= :addedAfter')
+            ->setParameters(array(
+                'event' => $event,
+                'addedAfter' => $addedAfter,
+            ))
+            ->groupBy('date')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+    public function getPapersFromHoursBefore(Event $event, $hoursAmount)
+    {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $addedAfter = $now->modify('-' . $hoursAmount . ' day');
+    }
+
+    public function countPapersFromDaysBefore(Event $event, $daysAmount)
+    {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $addedAfter = $now->modify('-' . $daysAmount . ' day');
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('substring(papers.createdAt, 1, 10) as date', 'count(papers.id) as number')
+            ->from('AcmeEventManagerBundle:Paper', 'papers')
+            ->where('papers.event = :event')
+            ->andWhere('papers.createdAt >= :addedAfter')
+            ->setParameters(array(
+                'event' => $event,
+                'addedAfter' => $addedAfter,
+            ))
+            ->groupBy('date')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+    public function countAllPapers(Event $event)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('count(papers)')
+            ->from('AcmeEventManagerBundle:Paper', 'papers')
+            ->where('papers.event = :event')
+            ->setParameter('event', $event)
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getPapersFromDaysBefore(Event $event, $daysAmount)
+    {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $addedAfter = $now->modify('-' . $daysAmount . ' day');
     }
 }
