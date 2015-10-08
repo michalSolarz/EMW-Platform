@@ -70,7 +70,13 @@ class UserDataType extends AbstractType
                     'label' => 'forms.user_data.university.label'))
             ->add('faculty',
                 'text', array(
-                    'label' => 'forms.user_data.faculty.label'));
+                    'label' => 'forms.user_data.faculty.label'))
+            ->add('surname',
+                'text', array(
+                    'label' => 'forms.user_data.surname.label'))
+            ->add('name',
+                'text', array(
+                    'label' => 'forms.user_data.name.label'));
 
         $builder->get('country')->addModelTransformer(new CountriesDataTransformer($this->entityManager));
         $builder->get('university')->addModelTransformer(new UniversityDataTransformer($this->entityManager, $this->creationHandler));

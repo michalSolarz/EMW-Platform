@@ -1,12 +1,14 @@
 {% extends 'base-frontend.html.twig' %}
 {% form_theme form '@AcmeEventManager/Form/label.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>UserData creation</h1>
 
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
+    {{ form_row(form.name) }}
+    {{ form_row(form.surname) }}
     {{ form_row(form.faculty) }}
     {{ form_row(form.university) }}
     {{ form_row(form.country) }}
@@ -31,7 +33,10 @@
             </a>
         </li>
     </ul>
-
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
     <script>
         $(function () {
             $("#user_data_country").autocomplete({
@@ -70,34 +75,34 @@
                 minLength: 1,
                 dataType: 'json'
             });
-            $("#user_data_university_name").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
-                        dataType: 'json',
-                        data: {
-                            searchTerm: request.term,
-                            limit: 5,
-                            order: 'ASC'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                dataType: 'json',
-                change: function (event, ui) {
-                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
-                    if (ui.item) {
-                        $("#user_data_university_address").val(ui.item.address);
-                    }
-                },
-                select: function (event, ui) {
-                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
-                    $("#user_data_university_address").val(ui.item.address);
-                }
-            });
+//            $("#user_data_university_name").autocomplete({
+//                source: function (request, response) {
+//                    $.ajax({
+//                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
+//                        dataType: 'json',
+//                        data: {
+//                            searchTerm: request.term,
+//                            limit: 5,
+//                            order: 'ASC'
+//                        },
+//                        success: function (data) {
+//                            response(data);
+//                        }
+//                    });
+//                },
+//                minLength: 1,
+//                dataType: 'json',
+//                change: function (event, ui) {
+//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
+//                    if (ui.item) {
+//                        $("#user_data_university_address").val(ui.item.address);
+//                    }
+//                },
+//                select: function (event, ui) {
+//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
+//                    $("#user_data_university_address").val(ui.item.address);
+//                }
+//            });
         });
     </script>
 {% endblock %}

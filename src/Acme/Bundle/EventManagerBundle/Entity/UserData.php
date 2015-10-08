@@ -104,11 +104,11 @@ class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInte
      */
     private $isVegetarian;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="boolean")
      */
     private $needsVisa;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="boolean")
      */
     private $acceptedTerms;
     /**

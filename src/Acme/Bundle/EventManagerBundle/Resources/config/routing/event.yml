@@ -38,3 +38,7 @@ event_participants:
 export_event_participants_to_csv:
     path:   /{id}/participants/export-to-csv/{type}/{period}/
     defaults: { _controller: "AcmeEventManagerBundle:Event:exportParticipantsToCSV" }
+
+event_papers:
+    path:   /{id}/papers/{type}/{period}
+    defaults: { _controller: "AcmeEventManagerBundle:Event:eventPapers" }

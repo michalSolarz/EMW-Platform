@@ -28,6 +28,12 @@ services:
     acme_event_manager.paper_addition_handler:
         class: Acme\Bundle\EventManagerBundle\Model\PaperAdditionHandler
         arguments: [@doctrine.orm.default_entity_manager, @security.token_storage, @acme_event_manager.creation_handler, @acme_event_manager.event_participation_handler]
+    acme_event_manager.event_papers_provider:
+        class: Acme\Bundle\EventManagerBundle\Model\PapersProvider
+        arguments: [@doctrine.orm.default_entity_manager]
+    acme_event_manager.pdf_export_handler:
+        class: Acme\Bundle\EventManagerBundle\Util\PdfExportHandler
+        arguments:  [@spraed.pdf.generator]
 #    acme_event_manager.example:
 #        class: Acme\Bundle\EventManagerBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

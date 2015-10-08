@@ -44,11 +44,10 @@ class FacultiesDataTransformer implements DataTransformerInterface
             // query for the issue with this id
             ->findOneBy(array('name' => $facultyString));
 
-        if ($faculty === null) {
+        if (!$faculty) {
             $facultyEntity = new Faculty();
             $facultyEntity->setName($facultyString);
             $this->creationHandler->handleCreation($facultyEntity);
-            $this->entityManager->persist($facultyEntity);
         }
 
         return $faculty;

@@ -1,7 +1,7 @@
 {% extends 'base-backend.html.twig' %}
 
 {% block content %}
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
@@ -14,7 +14,7 @@
                 {% else %}
                     <a href="{{ path('export_event_participants_to_csv', {'id':parameters.id,'type':parameters.type,'period':parameters.period}) }}">Export
                         to *.csv.</a>
-                    {{ dump(parameters) }}
+                    <a href="{{ path('event_statistics', {'id': event.id}) }}" class="pull-right">Go back</a>
                     <table class="table small">
                         <thead>
                         <tr>

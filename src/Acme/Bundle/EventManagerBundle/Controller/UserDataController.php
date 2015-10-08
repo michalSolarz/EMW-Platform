@@ -162,7 +162,7 @@ class UserDataController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(new UserDataType($entityManager), $entity, array(
+        $form = $this->createForm(new UserDataType($entityManager, $this->get('acme_event_manager.creation_handler')), $entity, array(
             'action' => $this->generateUrl('user_data_update', array('id' => $entity->getId()))
         ));
 

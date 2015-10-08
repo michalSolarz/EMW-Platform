@@ -1,0 +1,39 @@
+{% extends 'base-backend.html.twig' %}
+{% block content %}
+    <div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    {{ paper.paperTitle }}
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="pull-left">
+                    <div>
+                        {{ paper.authorName }}<br>
+                        {{ paper.authorSurname }}<br>
+                        {{ paper.authorFieldOfStudies }}<br>
+                        {{ paper.authorYearOfStudies }}<br>
+                        {{ paper.facultyName }}<br>
+                    </div>
+                    <hr>
+                    <div>
+                        {{ paper.universityName }}<br>
+                        {{ paper.universityAddress }}<br>
+                    </div>
+                    <hr>
+                    <div>
+                        {{ paper.paperCoAuthors }}<br>
+                        {{ paper.paperResearchAdvisor }}<br>
+                        {{ paper.paperTitle }}<br>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        {{ paper.paperContent }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

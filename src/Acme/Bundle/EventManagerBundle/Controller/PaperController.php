@@ -7,6 +7,7 @@ use Acme\Bundle\EventManagerBundle\Entity\Paper;
 use Acme\Bundle\EventManagerBundle\Form\PaperType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Paper controller.
@@ -50,5 +51,36 @@ class PaperController extends Controller
         return $form;
     }
 
+    public function paperContentAction($paperId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmeEventManagerBundle:Paper')->getPaperContent($paperId);
+
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Paper entity.');
+        }
+
+        return $this->render('@AcmeEventManager/Paper/content.html.twig', array('paper' => $entity));
+    }
+
+    public function exportPapersToPdfAction(Request $request)
+    {
+        $eventId = $request->get('eventId');
+        $type = $request->get('type');
+        $period = $request->get('period');
+
+        $em = $this->getDoctrine();
+        $paperProvider = $this->get('acme_event_manager.event_papers_provider');
+
+        $event = $em->getRepository('AcmeEventManagerBundle:Event')->find($eventId);
+        $entities = $paperProvider->providePapers($event, $type, $period, true);
+        $collection = array();
+        foreach ($entities as $entity) {
+            $collection[] = $this->renderView('@AcmeEventManager/Paper/pdf-export.html.twig', array('paper' => $entity));
+        }
+        return $this->get('acme_event_manager.pdf_export_handler')->exportToMultiplePagesPdf($collection);
+    }
 
 }

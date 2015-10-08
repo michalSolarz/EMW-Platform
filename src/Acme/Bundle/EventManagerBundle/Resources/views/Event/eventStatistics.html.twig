@@ -5,7 +5,7 @@
         <h1>{{ event.name }}</h1>
     </div>
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -15,7 +15,7 @@
                 <div class="panel-body">
                     All participants: {{ statistics.participants.totalAmount }}<br>
                     <a href="{{ path('event_participants', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
-                        participants data</a>
+                        participants data.</a>
                     <hr>
                     <h5>Statistics from last 31 days</h5><br>
                     {% if statistics.participants.last31Days == false %}
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -80,20 +80,20 @@
                 </div>
                 <div class="panel-body">
                     All papers: {{ statistics.papers.totalAmount }}<br>
-                    <a href="{{ path('event_participants', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
-                        participants data</a>
+                    <a href="{{ path('event_papers', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
+                        papers.</a>
                     <hr>
                     <h5>Statistics from last 31 days</h5><br>
                     {% if statistics.papers.last31Days == false %}
                         No paper added in last 31 days.
                     {% else %}
-                        <a href="{{ path('event_participants', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
+                        <a href="{{ path('event_papers', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
                             papers from last 31 days</a>
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>Day</th>
-                                <th>Joined</th>
+                                <th>Added</th>
                                 <th>Sub sum</th>
                             </tr>
                             </thead>
@@ -113,13 +113,13 @@
                     {% if statistics.papers.last12Hours == false %}
                         No user joined last 12 hours.
                     {% else %}
-                        <a href="{{ path('event_participants', {'id': event.id, 'type': 'h', 'period': 12 }) }}">Get
-                            participants data from last 12 hours</a>
+                        <a href="{{ path('event_papers', {'id': event.id, 'type': 'h', 'period': 12 }) }}">Get
+                            papers from last 12 hours</a>
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>Hour</th>
-                                <th>Joined</th>
+                                <th>Added</th>
                                 <th>Sub sum</th>
                             </tr>
                             </thead>

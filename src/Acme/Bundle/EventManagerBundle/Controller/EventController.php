@@ -296,4 +296,32 @@ class EventController extends Controller
 
         return $response;
     }
+
+    public function eventPapersAction(Request $request)
+    {
+        $id = $request->get('id');
+        $type = $request->get('type');
+        $period = $request->get('period');
+
+
+        $em = $this->getDoctrine()->getManager();
+        $participantsProvider = $this->get('acme_event_manager.event_papers_provider');
+
+        $entity = $em->getRepository('AcmeEventManagerBundle:Event')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+
+        return $this->render('@AcmeEventManager/Event/eventPapers.html.twig', array(
+            'parameters' => array(
+                'id' => $id,
+                'type' => $type,
+                'period' => $period,
+            ),
+            'event' => $entity,
+            'papers' => $participantsProvider->providePapers($entity, $type, $period),
+        ));
+    }
 }

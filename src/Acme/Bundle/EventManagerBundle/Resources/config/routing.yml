@@ -14,6 +14,10 @@ acme_event_manager_admin_paper_category:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/papercategory.yml"
     prefix:   /admin/paper_category
 
+acme_event_manager_admin_paper_:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/paper-admin.yml"
+    prefix:   /admin/paper
+
 acme_event_manager_paper:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/paper.yml"
     prefix:   /paper

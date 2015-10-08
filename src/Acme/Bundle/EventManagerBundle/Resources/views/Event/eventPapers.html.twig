@@ -1,0 +1,48 @@
+{% extends('base-backend.html.twig') %}
+{% block content %}
+    <div class="pull-right">
+        <a href="{{ path('export_paper_to_pdf', {'eventId': event.id, 'type': parameters.type, 'period': parameters.period}) }}">Export
+            to *.pdf</a>
+        <a href="{{ path('event_statistics', {'id': event.id}) }}">Go back</a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Paper Title
+            </th>
+            <th>
+                Paper category
+            </th>
+            <th>
+                Research advisor
+            </th>
+            <th>
+                CoAuthors
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for paper in papers %}
+            <tr>
+                <td>
+                    {{ paper.paperTitle }}
+                </td>
+                <td>
+                    {{ paper.categoryName }}
+                </td>
+                <td>
+                    {{ paper.paperResearchAdvisor }}
+                </td>
+                <td>
+                    {{ paper.paperCoAuthors }}
+                </td>
+                <td>
+                    <a href="{{ path('paper_content', {'paperId': paper.paperId}) }}">Get paper content</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -62,10 +62,56 @@ class PaperRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
-    public function getPapersFromHoursBefore(Event $event, $hoursAmount)
+    public function getPapersFromHoursBefore(Event $event, $hoursAmount, $forPdf = false)
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
-        $addedAfter = $now->modify('-' . $hoursAmount . ' day');
+        $addedAfter = $now->modify('-' . $hoursAmount . ' hour');
+        if (!$forPdf) {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select(
+                    'paperCategory.name as categoryName,
+                papers.researchAdvisor as paperResearchAdvisor,
+                papers.coAuthors as paperCoAuthors,
+                papers.title as paperTitle,
+                papers.id as paperId,
+                papers.createdAt as addedAt')
+                ->from('AcmeEventManagerBundle:Paper', 'papers')
+                ->where('papers.event = :event')
+                ->andWhere('papers.createdAt >= :addedAfter')
+                ->leftJoin('papers.paperCategory', 'paperCategory')
+                ->setParameters(array(
+                    'event' => $event,
+                    'addedAfter' => $addedAfter,
+                ))
+                ->getQuery();
+        } else {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select('authorData.name as authorName,
+                        authorData.surname as authorSurname,
+                        authorData.fieldOfStudies as authorFieldOfStudies,
+                        authorData.yearOfStudies as authorYearOfStudies,
+                        faculty.name as facultyName,
+                        university.name as universityName,
+                        university.address as universityAddress,
+                        paper.coAuthors as paperCoAuthors,
+                        paper.researchAdvisor as paperResearchAdvisor,
+                        paper.title as paperTitle,
+                        paper.content as paperContent')
+                ->from('AcmeEventManagerBundle:Paper', 'paper')
+                ->leftJoin('paper.paperCategory', 'paperCategory')
+                ->leftJoin('paper.createdBy', 'author')
+                ->leftJoin('author.data', 'authorData')
+                ->leftJoin('authorData.university', 'university')
+                ->leftJoin('authorData.faculty', 'faculty')
+                ->where('paper.event = :event')
+                ->andWhere('paper.createdAt >= :addedAfter')
+                ->setParameters(array(
+                    'event' => $event,
+                    'addedAfter' => $addedAfter,
+                ))
+                ->getQuery();
+        }
+        return $query->getArrayResult();
     }
 
     public function countPapersFromDaysBefore(Event $event, $daysAmount)
@@ -87,6 +133,58 @@ class PaperRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
+    public function getPapersFromDaysBefore(Event $event, $daysAmount, $forPdf = false)
+    {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $addedAfter = $now->modify('-' . $daysAmount . ' day');
+        if (!$forPdf) {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select(
+                    'paperCategory.name as categoryName,
+                papers.researchAdvisor as paperResearchAdvisor,
+                papers.coAuthors as paperCoAuthors,
+                papers.title as paperTitle,
+                papers.id as paperId,
+                papers.createdAt as addedAt')
+                ->from('AcmeEventManagerBundle:Paper', 'papers')
+                ->where('papers.event = :event')
+                ->andWhere('papers.createdAt >= :addedAfter')
+                ->leftJoin('papers.paperCategory', 'paperCategory')
+                ->setParameters(array(
+                    'event' => $event,
+                    'addedAfter' => $addedAfter,
+                ))
+                ->getQuery();
+        } else {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select('authorData.name as authorName,
+                        authorData.surname as authorSurname,
+                        authorData.fieldOfStudies as authorFieldOfStudies,
+                        authorData.yearOfStudies as authorYearOfStudies,
+                        faculty.name as facultyName,
+                        university.name as universityName,
+                        university.address as universityAddress,
+                        paper.coAuthors as paperCoAuthors,
+                        paper.researchAdvisor as paperResearchAdvisor,
+                        paper.title as paperTitle,
+                        paper.content as paperContent')
+                ->from('AcmeEventManagerBundle:Paper', 'paper')
+                ->leftJoin('paper.paperCategory', 'paperCategory')
+                ->leftJoin('paper.createdBy', 'author')
+                ->leftJoin('author.data', 'authorData')
+                ->leftJoin('authorData.university', 'university')
+                ->leftJoin('authorData.faculty', 'faculty')
+                ->where('paper.event = :event')
+                ->andWhere('paper.createdAt >= :addedAfter')
+                ->setParameters(array(
+                    'event' => $event,
+                    'addedAfter' => $addedAfter,
+                ))
+                ->getQuery();
+        }
+        return $query->getArrayResult();
+    }
+
     public function countAllPapers(Event $event)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
@@ -99,9 +197,99 @@ class PaperRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getPapersFromDaysBefore(Event $event, $daysAmount)
+    public function getAllPapers(Event $event, $forPdf = false)
     {
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
-        $addedAfter = $now->modify('-' . $daysAmount . ' day');
+        if (!$forPdf) {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select(
+                    'paperCategory.name as categoryName,
+                papers.researchAdvisor as paperResearchAdvisor,
+                papers.coAuthors as paperCoAuthors,
+                papers.title as paperTitle,
+                papers.id as paperId,
+                papers.createdAt as addedAt')
+                ->from('AcmeEventManagerBundle:Paper', 'papers')
+                ->where('papers.event = :event')
+                ->leftJoin('papers.paperCategory', 'paperCategory')
+                ->setParameters(array(
+                    'event' => $event,
+                ))
+                ->getQuery();
+        } else {
+            $query = $this->getEntityManager()->createQueryBuilder()
+                ->select('authorData.name as authorName,
+                        authorData.surname as authorSurname,
+                        authorData.fieldOfStudies as authorFieldOfStudies,
+                        authorData.yearOfStudies as authorYearOfStudies,
+                        faculty.name as facultyName,
+                        university.name as universityName,
+                        university.address as universityAddress,
+                        paper.coAuthors as paperCoAuthors,
+                        paper.researchAdvisor as paperResearchAdvisor,
+                        paper.title as paperTitle,
+                        paper.content as paperContent')
+                ->from('AcmeEventManagerBundle:Paper', 'paper')
+                ->leftJoin('paper.paperCategory', 'paperCategory')
+                ->leftJoin('paper.createdBy', 'author')
+                ->leftJoin('author.data', 'authorData')
+                ->leftJoin('authorData.university', 'university')
+                ->leftJoin('authorData.faculty', 'faculty')
+                ->where('paper.event = :event')
+                ->setParameter('event', $event)
+                ->getQuery();
+        }
+        return $query->getArrayResult();
+    }
+
+    public function getPaperContent($paperId)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('authorData.name as authorName,
+                        authorData.surname as authorSurname,
+                        authorData.fieldOfStudies as authorFieldOfStudies,
+                        authorData.yearOfStudies as authorYearOfStudies,
+                        faculty.name as facultyName,
+                        university.name as universityName,
+                        university.address as universityAddress,
+                        paper.coAuthors as paperCoAuthors,
+                        paper.researchAdvisor as paperResearchAdvisor,
+                        paper.title as paperTitle,
+                        paper.content as paperContent')
+            ->from('AcmeEventManagerBundle:Paper', 'paper')
+            ->leftJoin('paper.paperCategory', 'paperCategory')
+            ->leftJoin('paper.createdBy', 'author')
+            ->leftJoin('author.data', 'authorData')
+            ->leftJoin('authorData.university', 'university')
+            ->leftJoin('authorData.faculty', 'faculty')
+            ->where('paper.id = :paperId')
+            ->setParameter('paperId', $paperId)
+            ->getQuery();
+        return $query->getSingleResult();
+    }
+
+    public function getPapersContent($event)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('authorData.name as authorName,
+                        authorData.surname as authorSurname,
+                        authorData.fieldOfStudies as authorFieldOfStudies,
+                        authorData.yearOfStudies as authorYearOfStudies,
+                        faculty.name as facultyName,
+                        university.name as universityName,
+                        university.address as universityAddress,
+                        paper.coAuthors as paperCoAuthors,
+                        paper.researchAdvisor as paperResearchAdvisor,
+                        paper.title as paperTitle,
+                        paper.content as paperContent')
+            ->from('AcmeEventManagerBundle:Paper', 'paper')
+            ->leftJoin('paper.paperCategory', 'paperCategory')
+            ->leftJoin('paper.createdBy', 'author')
+            ->leftJoin('author.data', 'authorData')
+            ->leftJoin('authorData.university', 'university')
+            ->leftJoin('authorData.faculty', 'faculty')
+            ->where('paper.event = :event')
+            ->setParameter('event', $event)
+            ->getQuery();
+        return $query->getArrayResult();
     }
 }

@@ -1,0 +1,7 @@
+paper_content:
+    path:   /{paperId}/content
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:paperContent" }
+
+export_paper_to_pdf:
+    path: /{eventId}/export-to-pdf/{type}/{period}
+    defaults: { _controller: "AcmeEventManagerBundle:Paper:exportPapersToPdf" }
