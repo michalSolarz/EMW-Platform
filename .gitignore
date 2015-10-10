@@ -4,7 +4,6 @@ vendor/*
 app/bootstrap.php.cache
 app/cache/*
 app/logs/*
-web/bundles/*
 web/uploads/*
 app/phpunit.xml
  
