@@ -17,10 +17,7 @@ composer.phar
  
 # PhpStorm
 .idea/
- 
+
 # Node and Bower modules
 node_modules/
 vendor_js/
- 
-# JS and CSS compiled files
-web/assets/*

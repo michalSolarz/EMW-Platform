@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                     'vendor_js/bootstrap/custom/frontend/bootstrap/*.less',
                     'vendor_js/bootstrap/custom/frontend/theme/*.less',
                 ],  //watched files
-                tasks: ['less'],                          //tasks to run
+                tasks: ['bowercopy', 'less'],                          //tasks to run
                 options: {
                     livereload: true                        //reloads the browser
                 }
@@ -67,10 +67,11 @@ module.exports = function (grunt) {
     });
 
     // Plugin loading
+    grunt.loadNpmTasks('grunt-bowercopy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
 
     // Task definition
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['bowercopy', 'watch']);
 
 };
