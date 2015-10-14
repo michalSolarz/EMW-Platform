@@ -1,0 +1,32 @@
+Acme\Bundle\EventManagerBundle\Entity\Country:
+  properties:
+    name:
+      - NotBlank: ~
+Acme\Bundle\EventManagerBundle\Entity\Event:
+  properties:
+    registrationOpening:
+      - NotBlank: ~
+      - DateTime: ~
+    registrationClosure:
+      - NotBlank: ~
+      - DateTime: ~
+    name:
+      - NotBlank: ~
+    eventBeginning:
+      - NotBlank: ~
+      - DateTime: ~
+    eventEnd:
+      - NotBlank: ~
+      - DateTime: ~
+    papersPerParticipant:
+      - Expression:
+          expression: "this.getEventWithPapers() == false or this.getEventWithPapers() == true and value > 0"
+          message: "event.papersPerParticipant.expression"
+Acme\Bundle\EventManagerBundle\Entity\Paper:
+  properties:
+    title:
+      - NotBlank: ~
+    researchAdvisor:
+      - NotBlank: ~
+    content:
+      - Acme\Bundle\EventManagerBundle\Validator\Constraint\ContainsAppropriateWordsAmount: ~

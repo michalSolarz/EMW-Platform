@@ -3,12 +3,3 @@ add_paper:
   defaults: { _controller: "AcmeEventManagerBundle:Paper:addPaper"  }
   methods: [GET, POST]
 
-paper_new:
-    path:     /new
-    defaults: { _controller: "AcmeEventManagerBundle:Paper:new" }
-
-paper_create:
-    path:     /create
-    defaults: { _controller: "AcmeEventManagerBundle:Paper:create" }
-    methods:  POST
-

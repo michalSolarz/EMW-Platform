@@ -1,7 +1,7 @@
 {% extends 'base-backend.html.twig' %}
 
 {% block content %}
-    <h1>Event list</h1>
+    <h1>Events</h1>
 
     <table class="records_list table table-responsive small text-center">
         <thead>
@@ -31,10 +31,10 @@
                 <td>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="{{ path('event_statistics', { 'id': entity.id }) }}">show stats</a>
+                            <a href="{{ path('admin_event_statistics', { 'id': entity.id }) }}">show stats</a>
                         </li>
                         <li>
-                            <a href="{{ path('event_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('admin_event_edit', { 'id': entity.id }) }}">edit</a>
                         </li>
 
                     </ul>
@@ -46,7 +46,7 @@
 
     <ul>
         <li class="list-unstyled">
-            <a href="{{ path('event_new') }}">
+            <a href="{{ path('admin_event_new') }}">
                 Create a new entry
             </a>
         </li>

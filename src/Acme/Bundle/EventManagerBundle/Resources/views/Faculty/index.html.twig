@@ -1,7 +1,7 @@
 {% extends 'base-backend.html.twig' %}
 
 {% block content %}
-    <h1>Faculty list</h1>
+    <h1>Faculties</h1>
 
     <ul class="list-unstyled">
         <li>
@@ -28,7 +28,7 @@
             <tr>
                 <td>{{ entity.name }}</td>
                 <td>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
                             <a href="{{ path('admin_faculty_show', { 'id': entity.id }) }}">show</a>
                         </li>

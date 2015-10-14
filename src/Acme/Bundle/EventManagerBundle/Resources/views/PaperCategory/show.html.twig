@@ -1,32 +1,30 @@
 {% extends 'base-backend.html.twig' %}
 
-{% block body -%}
-    <h1>PaperCategory</h1>
-
-    <table class="record_properties">
-        <tbody>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Universalpapercategory</th>
-            <td>{{ entity.universalPaperCategory }}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('admin_paper_category') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_paper_category_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+{% block content %}
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    University
+                </h3>
+            </div>
+            <div class="panel-body">
+                <b>Created at:</b> {{ entity.createdAt|date('Y-m-d H:i:s') }}<br>
+                <b>Name:</b> {{ entity.name }}<br>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{ path('admin_paper_category') }}">
+                            Back to the list
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_paper_category_edit', { 'id': entity.id }) }}">
+                            Edit
+                        </a>
+                    </li>
+                    <li>{{ form(delete_form) }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

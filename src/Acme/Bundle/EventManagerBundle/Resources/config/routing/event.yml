@@ -1,44 +1,44 @@
-event:
+admin_event:
     path:     /
     defaults: { _controller: "AcmeEventManagerBundle:Event:index" }
 
-event_new:
+admin_event_new:
     path:     /new
     defaults: { _controller: "AcmeEventManagerBundle:Event:new" }
 
-event_create:
+admin_event_create:
     path:     /create
     defaults: { _controller: "AcmeEventManagerBundle:Event:create" }
     methods:  POST
 
-event_edit:
+admin_event_edit:
     path:     /{id}/edit
     defaults: { _controller: "AcmeEventManagerBundle:Event:edit" }
 
-event_update:
+admin_event_update:
     path:     /{id}/update
     defaults: { _controller: "AcmeEventManagerBundle:Event:update" }
     methods:  [POST, PUT]
 
-event_delete:
+admin_event_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmeEventManagerBundle:Event:delete" }
     methods:  [POST, DELETE]
 
-event_statistics:
+admin_event_statistics:
     path:   /{id}/statistics
     defaults: { _controller: "AcmeEventManagerBundle:Event:eventStatistics" }
     methods: GET
 
-event_participants:
+admin_event_participants:
     path:   /{id}/participants/{type}/{period}/
     defaults: { _controller: "AcmeEventManagerBundle:Event:eventParticipants" }
     methods: GET
 
-export_event_participants_to_csv:
+admin_export_event_participants_to_csv:
     path:   /{id}/participants/export-to-csv/{type}/{period}/
     defaults: { _controller: "AcmeEventManagerBundle:Event:exportParticipantsToCSV" }
 
-event_papers:
+admin_event_papers:
     path:   /{id}/papers/{type}/{period}
     defaults: { _controller: "AcmeEventManagerBundle:Event:eventPapers" }

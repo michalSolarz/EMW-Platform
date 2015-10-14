@@ -29,7 +29,7 @@ class PaperType extends AbstractType
             ->add('title')
             ->add('coAuthors')
             ->add('researchAdvisor')
-            ->add('content')
+            ->add('content', 'textarea')
             ->add('paperCategory', 'entity',
                 array(
                     'required' => true,

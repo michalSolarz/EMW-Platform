@@ -87,7 +87,7 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     /**
      * @var integer
      *
-     * @ORM\Column(type="smallint", nullable=true, options={"default" = 1})
+     * @ORM\Column(type="smallint", nullable=true)
      */
     private $papersPerParticipant;
 
@@ -101,14 +101,14 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     private $eventBeginning;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     private $eventEnd;
 
@@ -423,35 +423,6 @@ class Event implements StampedAtCreationInterface, StampedAtEditionEntityInterfa
         $this->eventUniqueHash = $eventUniqueHash;
 
         return $this;
-    }
-
-    /**
-     * Add users
-     *
-     * @param User $user
-     * @return Event
-     */
-    public function addEventParticipant(User $user)
-    {
-        if ($this->eventParticipants->contains($user)) {
-            return;
-        }
-        $this->eventParticipants->add($user);
-        $user->addEvent($this);
-    }
-
-    /**
-     * Remove users
-     *
-     * @param User $user
-     */
-    public function removeEventParticipant(User $user)
-    {
-        if (!$this->eventParticipants->contains($user)) {
-            return;
-        }
-        $this->eventParticipants->removeElement($user);
-        $user->removeEvent($this);
     }
 
     /**

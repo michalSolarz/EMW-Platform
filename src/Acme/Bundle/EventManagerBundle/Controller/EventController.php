@@ -46,7 +46,7 @@ class EventController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('event'));
+            return $this->redirect($this->generateUrl('admin_event'));
         }
 
         return $this->render('AcmeEventManagerBundle:Event:new.html.twig', array(
@@ -65,7 +65,7 @@ class EventController extends Controller
     private function createCreateForm(Event $entity)
     {
         $form = $this->createForm(new EventType(), $entity, array(
-            'action' => $this->generateUrl('event_create'),
+            'action' => $this->generateUrl('admin_event_create'),
             'method' => 'POST',
         ));
 
@@ -87,44 +87,6 @@ class EventController extends Controller
             'entity' => $entity,
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * Finds and displays a Event entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AcmeEventManagerBundle:Event')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Event entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AcmeEventManagerBundle:Event:show.html.twig', array(
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Creates a form to delete a Event entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('event_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm();
     }
 
     /**
@@ -161,13 +123,29 @@ class EventController extends Controller
     private function createEditForm(Event $entity)
     {
         $form = $this->createForm(new EventType(), $entity, array(
-            'action' => $this->generateUrl('event_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('admin_event_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
+    }
+
+    /**
+     * Creates a form to delete a Event entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_event_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->getForm();
     }
 
     /**
@@ -192,7 +170,7 @@ class EventController extends Controller
             $this->get('acme_event_manager.edition_handler')->handleEdition($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('event_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_event_edit', array('id' => $id)));
         }
 
         return $this->render('AcmeEventManagerBundle:Event:edit.html.twig', array(
@@ -223,7 +201,7 @@ class EventController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('event'));
+        return $this->redirect($this->generateUrl('admin_event'));
     }
 
     public function eventStatisticsAction($id)

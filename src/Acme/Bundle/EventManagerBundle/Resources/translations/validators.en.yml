@@ -1,0 +1,3 @@
+event:
+  papersPerParticipant:
+    expression: For events with papers You need to pass number of papers per participant.

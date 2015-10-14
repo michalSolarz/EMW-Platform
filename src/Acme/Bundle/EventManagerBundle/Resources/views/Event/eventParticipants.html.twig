@@ -12,9 +12,9 @@
                 {% if participants is null %}
                     No participants data to show.
                 {% else %}
-                    <a href="{{ path('export_event_participants_to_csv', {'id':parameters.id,'type':parameters.type,'period':parameters.period}) }}">Export
+                    <a href="{{ path('admin_export_event_participants_to_csv', {'id':parameters.id,'type':parameters.type,'period':parameters.period}) }}">Export
                         to *.csv.</a>
-                    <a href="{{ path('event_statistics', {'id': event.id}) }}" class="pull-right">Go back</a>
+                    <a href="{{ path('admin_event_statistics', {'id': event.id}) }}" class="pull-right">Go back</a>
                     <table class="table small">
                         <thead>
                         <tr>

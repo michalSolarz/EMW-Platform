@@ -1,13 +1,13 @@
 {% extends 'base-backend.html.twig' %}
 
-{% block body -%}
-    <h1>PaperCategory list</h1>
+{% block content %}
+    <h1>Paper categories</h1>
 
-    <table class="records_list">
+    <table class="table">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Universalpapercategory</th>
+            <th>Is it universal</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -15,9 +15,14 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.name }}</td>
-                <td>{{ entity.universalPaperCategory }}</td>
+                <td>{% if entity.universalPaperCategory %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
                 <td>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
                             <a href="{{ path('admin_paper_category_show', { 'id': entity.id }) }}">show</a>
                         </li>

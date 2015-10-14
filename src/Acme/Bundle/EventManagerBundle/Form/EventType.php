@@ -15,17 +15,16 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('registrationOpening')
-            ->add('registrationClosure')
-            ->add('eventWithPapers')
-            ->add('papersRegistrationOpening')
-            ->add('papersRegistrationClosure')
-            ->add('name')
-            ->add('eventBeginning')
-            ->add('eventEnd')
-            ->add('eventIsVisible')
-            ->add('eventUniqueHash')
-            ->add('eventParticipants');
+            ->add('registrationOpening', 'datetime', array('required' => true))
+            ->add('registrationClosure', 'datetime', array('required' => true))
+            ->add('eventWithPapers', 'checkbox', array('required' => false))
+            ->add('papersPerParticipant', 'text', array('required' => false))
+            ->add('papersRegistrationOpening', 'datetime')
+            ->add('papersRegistrationClosure', 'datetime')
+            ->add('name', 'text', array('required' => true))
+            ->add('eventBeginning', 'date', array('required' => true))
+            ->add('eventEnd', 'date', array('required' => true))
+            ->add('eventIsVisible', 'checkbox', array('required' => false));
     }
 
     /**

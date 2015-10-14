@@ -1,9 +1,9 @@
 {% extends('base-backend.html.twig') %}
 {% block content %}
     <div class="pull-right">
-        <a href="{{ path('export_paper_to_pdf', {'eventId': event.id, 'type': parameters.type, 'period': parameters.period}) }}">Export
+        <a href="{{ path('admin_export_paper_to_pdf', {'eventId': event.id, 'type': parameters.type, 'period': parameters.period}) }}">Export
             to *.pdf</a>
-        <a href="{{ path('event_statistics', {'id': event.id}) }}">Go back</a>
+        <a href="{{ path('admin_event_statistics', {'id': event.id}) }}">Go back</a>
     </div>
     <table class="table">
         <thead>
@@ -39,7 +39,7 @@
                     {{ paper.paperCoAuthors }}
                 </td>
                 <td>
-                    <a href="{{ path('paper_content', {'paperId': paper.paperId}) }}">Get paper content</a>
+                    <a href="{{ path('admin_paper_content', {'paperId': paper.paperId}) }}">Get paper content</a>
                 </td>
             </tr>
         {% endfor %}

@@ -1,13 +1,13 @@
 {% extends 'base-backend.html.twig' %}
 
-{% block body -%}
+{% block content %}
     <h1>Event edit</h1>
 
     {{ form(edit_form) }}
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('event') }}">
+            <a href="{{ path('admin_event') }}">
                 Back to the list
             </a>
         </li>

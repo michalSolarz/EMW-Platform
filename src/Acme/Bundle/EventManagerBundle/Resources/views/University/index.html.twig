@@ -1,11 +1,11 @@
 {% extends 'base-backend.html.twig' %}
 
 {% block content %}
-    <h1>University list</h1>
+    <h1>Universities</h1>
 
     <ul class="list-unstyled">
         <li>
-            <a href="{{ path('admin_faculty_new') }}">
+            <a href="{{ path('admin_university_new') }}">
                 Add new university.
             </a>
         </li>
@@ -30,7 +30,7 @@
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.address }}</td>
                 <td>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
                             <a href="{{ path('admin_university_show', { 'id': entity.id }) }}">show</a>
                         </li>

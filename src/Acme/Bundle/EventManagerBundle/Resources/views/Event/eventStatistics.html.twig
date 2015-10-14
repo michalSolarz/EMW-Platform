@@ -14,14 +14,15 @@
                 </div>
                 <div class="panel-body">
                     All participants: {{ statistics.participants.totalAmount }}<br>
-                    <a href="{{ path('event_participants', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
+                    <a href="{{ path('admin_event_participants', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get
+                        all
                         participants data.</a>
                     <hr>
                     <h5>Statistics from last 31 days</h5><br>
                     {% if statistics.participants.last31Days == false %}
                         No user joined last 31 days.
                     {% else %}
-                        <a href="{{ path('event_participants', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
+                        <a href="{{ path('admin_event_participants', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
                             participants data from last 31 days</a>
                         <table class="table">
                             <thead>
@@ -47,7 +48,7 @@
                     {% if statistics.participants.last12Hours == false %}
                         No user joined last 12 hours.
                     {% else %}
-                        <a href="{{ path('event_participants', {'id': event.id, 'type': 'h', 'period': 12 }) }}">Get
+                        <a href="{{ path('admin_event_participants', {'id': event.id, 'type': 'h', 'period': 12 }) }}">Get
                             participants data from last 12 hours</a>
                         <table class="table">
                             <thead>
@@ -80,14 +81,14 @@
                 </div>
                 <div class="panel-body">
                     All papers: {{ statistics.papers.totalAmount }}<br>
-                    <a href="{{ path('event_papers', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
+                    <a href="{{ path('admin_event_papers', {'id': event.id, 'type': 'a', 'period': 0 }) }}">Get all
                         papers.</a>
                     <hr>
                     <h5>Statistics from last 31 days</h5><br>
                     {% if statistics.papers.last31Days == false %}
                         No paper added in last 31 days.
                     {% else %}
-                        <a href="{{ path('event_papers', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
+                        <a href="{{ path('admin_event_papers', {'id': event.id, 'type': 'd', 'period': 31 }) }}">Get
                             papers from last 31 days</a>
                         <table class="table">
                             <thead>

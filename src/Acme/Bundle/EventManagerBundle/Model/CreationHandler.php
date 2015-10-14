@@ -8,6 +8,7 @@
 
 namespace Acme\Bundle\EventManagerBundle\Model;
 
+use Acme\Bundle\EventManagerBundle\Entity\Event;
 use Acme\Bundle\EventManagerBundle\Entity\UserData;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -25,6 +26,13 @@ class CreationHandler
     {
         $entity->setCreatedBy($this->user);
         $entity->setCreatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        if ($entity instanceof Event) {
+            $entity->setEventUniqueHash(uniqid(rand(), true));
+            if ($entity->getEventWithPapers() == true && $entity->getPapersPerParticipant() == null) {
+            }
+//                $entity->setPapersPerParticipant(1);
+        }
 
         if ($entity instanceof MappedByUserInterface) {
             $entity->setUser($this->user);
