@@ -61,6 +61,7 @@ class UserDataType extends AbstractType
             ->add('acceptedTerms',
                 'checkbox', array(
                     'value' => true,
+                    'empty_data' => false,
                     'label' => 'forms.user_data.acceptedTerms.label'))
             ->add('country',
                 'text', array(

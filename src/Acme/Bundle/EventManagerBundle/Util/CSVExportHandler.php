@@ -93,12 +93,17 @@ class CSVExportHandler
 
         $handle = fopen('php://output', 'w+');
         foreach ($participants as $participant) {
+            $participant = $this->participantsParser($participant);
             fputcsv($handle, array($participant['username'],
                 $participant['email'],
                 $participant['name'],
                 $participant['surname'],
                 $participant['gender'],
                 $participant['nationality'],
+                $participant['countryName'],
+                $participant['universityName'],
+                $participant['universityAddress'],
+                $participant['facultyName'],
                 $participant['fieldOfStudies'],
                 $participant['yearOfStudies'],
                 $participant['phoneNumber'],
@@ -107,5 +112,25 @@ class CSVExportHandler
         }
         fclose($handle);
         return $handle;
+    }
+
+    private function participantsParser($participant)
+    {
+        if ($participant['gender'] == 'm')
+            $participant['gender'] = 'Male';
+        elseif ($participant['gender'] == 'f')
+            $participant['gender'] = 'Female';
+
+        if ($participant['isVegetarian'] == false)
+            $participant['isVegetarian'] = 'No';
+        else
+            $participant['isVegetarian'] = 'Yes';
+
+        if ($participant['needsVisa'] == false)
+            $participant['needsVisa'] = 'No';
+        else
+            $participant['needsVisa'] = 'Yes';
+
+        return $participant;
     }
 }

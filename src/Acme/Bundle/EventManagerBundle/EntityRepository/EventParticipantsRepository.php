@@ -45,10 +45,14 @@ class EventParticipantsRepository extends EntityRepository
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $joinedAfter = $now->modify('-' . $daysAmount . ' day');
         $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname')
+            ->select('faculty.name as facultyName, university.name as universityName, university.address as universityAddress, country.name as countryName, eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname, data.gender, data.nationality, data.fieldOfStudies, data.yearOfStudies, data.phoneNumber, data.isVegetarian, data.needsVisa')
             ->from('AcmeEventManagerBundle:EventParticipants', 'eventParticipants')
+            ->where('eventParticipants.event = :event')
             ->leftJoin('eventParticipants.user', 'user')
             ->leftJoin('user.data', 'data')
+            ->leftJoin('data.country', 'country')
+            ->leftJoin('data.university', 'university')
+            ->leftJoin('data.faculty', 'faculty')
             ->where('eventParticipants.createdAt >= :joinedAfter')
             ->andWhere('eventParticipants.event = :event')
             ->setParameters(array(
@@ -96,10 +100,14 @@ class EventParticipantsRepository extends EntityRepository
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $joinedAfter = $now->modify('-' . $hoursAmount . ' hour');
         $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname')
+            ->select('faculty.name as facultyName, university.name as universityName, university.address as universityAddress, country.name as countryName, eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname, data.gender, data.nationality, data.fieldOfStudies, data.yearOfStudies, data.phoneNumber, data.isVegetarian, data.needsVisa')
             ->from('AcmeEventManagerBundle:EventParticipants', 'eventParticipants')
+            ->where('eventParticipants.event = :event')
             ->leftJoin('eventParticipants.user', 'user')
             ->leftJoin('user.data', 'data')
+            ->leftJoin('data.country', 'country')
+            ->leftJoin('data.university', 'university')
+            ->leftJoin('data.faculty', 'faculty')
             ->where('eventParticipants.createdAt >= :joinedAfter')
             ->andWhere('eventParticipants.event = :event')
             ->setParameters(array(
@@ -145,11 +153,14 @@ class EventParticipantsRepository extends EntityRepository
     public function getAllParticipants(Event $event)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname, data.gender, data.nationality, data.fieldOfStudies, data.yearOfStudies, data.phoneNumber, data.isVegetarian, data.needsVisa')
+            ->select('faculty.name as facultyName, university.name as universityName, university.address as universityAddress, country.name as countryName, eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname, data.gender, data.nationality, data.fieldOfStudies, data.yearOfStudies, data.phoneNumber, data.isVegetarian, data.needsVisa')
             ->from('AcmeEventManagerBundle:EventParticipants', 'eventParticipants')
             ->where('eventParticipants.event = :event')
             ->leftJoin('eventParticipants.user', 'user')
             ->leftJoin('user.data', 'data')
+            ->leftJoin('data.country', 'country')
+            ->leftJoin('data.university', 'university')
+            ->leftJoin('data.faculty', 'faculty')
             ->setParameter('event', $event)
             ->getQuery();
 
