@@ -1,0 +1,35 @@
+{% extends "base-backend.html.twig" %}
+
+{% block title %}AcmeEventManagerBundle:User:displayUser{% endblock %}
+
+{% block content -%}
+    <b>Username: </b>{{ user.username }}<br>
+    <b>Email: </b>{{ user.email }}<br>
+    <b>Last login: </b>{{ user.lastLogin | date('H:i:s') }}<br>
+    {% if user.roles|length == 1 %}
+        <b>Role: </b><br>
+    {% else %}
+        <b>Roles: </b><br>
+    {% endif %}
+    <ul class="list-unstyled">
+        {% for role in user.roles %}
+            <li>
+                {{ role }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if user.data is not null %}
+        <b>Name: </b>{{ user.data.name }}<br>
+        <b>Surname: </b>{{ user.data.surname }}<br>
+        <b>Gender: </b>{{ user.data.gender }}<br>
+        <b>Nationality: </b>{{ user.data.nationality }}<br>
+        <b>Country: </b>{{ user.data.country.name }}<br>
+        <b>University name: </b>{{ user.data.university.name }}<br>
+        <b>University address: </b>{{ user.data.university.address }}<br>
+        <b>Faculty: </b>{{ user.data.faculty.name }}<br>
+        <b>Field of studies: </b>{{ user.data.fieldOfStudies }}<br>
+        <b>Year of studies: </b>{{ user.data.yearOfStudies }}<br>
+        <b>Phone number: </b>{{ user.data.phoneNumber }}<br>
+    {% endif %}
+    <a href="{{ path('admin_list_users') }}">Get back to user list</a>
+{% endblock %}

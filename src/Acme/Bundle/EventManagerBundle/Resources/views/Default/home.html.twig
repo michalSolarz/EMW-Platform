@@ -13,6 +13,10 @@
 
 {% block content -%}
     <h1 class="text-center">Welcome to East Meets West registration app.</h1>
-    <h2 class="text-center">Please create a <a href="{{ path('fos_user_registration_register') }}">new account</a> or <a
-                href="{{ path('fos_user_security_login') }}">log to existing one</a>.</h2>
+    {% if app.user %}
+    {% elseif not app.user %}
+        <h2 class="text-center">Please create a <a href="{{ path('fos_user_registration_register') }}">new account</a>
+            or <a
+                    href="{{ path('fos_user_security_login') }}">log to existing one</a>.</h2>
+    {% endif %}
 {% endblock content %}

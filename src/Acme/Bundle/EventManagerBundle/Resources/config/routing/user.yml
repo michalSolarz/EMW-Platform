@@ -1,0 +1,11 @@
+admin_list_users:
+    path:     /listUsers
+    defaults: { _controller: AcmeEventManagerBundle:User:listUsers }
+
+admin_display_user:
+    path:     /displayUser/{id}/
+    defaults: { _controller: AcmeEventManagerBundle:User:displayUser }
+
+admin_manage_user_roles:
+    path:     /manageUserRoles
+    defaults: { _controller: AcmeEventManagerBundle:User:manageUserRoles }

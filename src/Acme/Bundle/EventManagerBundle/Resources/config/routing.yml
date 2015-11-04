@@ -34,6 +34,10 @@ acme_event_manager_country:
     resource: "@AcmeEventManagerBundle/Resources/config/routing/country.yml"
     prefix:   /admin/country
 
+acme_event_manager_user:
+    resource: "@AcmeEventManagerBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
 acme_api_user_data:
     resource: "@AcmeEventManagerBundle/Controller/ApiController/UserDataController.php"
     prefix: /api/v1/
