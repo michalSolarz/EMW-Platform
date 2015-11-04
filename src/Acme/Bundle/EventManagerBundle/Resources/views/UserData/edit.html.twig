@@ -10,7 +10,10 @@
 {% endif %}
 
 {% extends parent %}
-
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/acmeeventmanager/css/jquery-ui.css') }}">
+{% endblock %}
 {% block content %}
     <h1>UserData edit</h1>
 
@@ -39,72 +42,5 @@
 {% block scripts %}
     {{ parent() }}
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-    <script>
-        $(function () {
-            $("#user_data_country").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/countries",
-                        dataType: 'json',
-                        data: {
-                            searchTerm: request.term,
-                            limit: 5,
-                            order: 'ASC'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                dataType: 'json'
-            });
-            $("#user_data_faculty").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/faculties",
-                        dataType: 'json',
-                        data: {
-                            searchTerm: request.term,
-                            limit: 5,
-                            order: 'ASC'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                dataType: 'json'
-            });
-//            $("#user_data_university_name").autocomplete({
-//                source: function (request, response) {
-//                    $.ajax({
-//                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
-//                        dataType: 'json',
-//                        data: {
-//                            searchTerm: request.term,
-//                            limit: 5,
-//                            order: 'ASC'
-//                        },
-//                        success: function (data) {
-//                            response(data);
-//                        }
-//                    });
-//                },
-//                minLength: 1,
-//                dataType: 'json',
-//                change: function (event, ui) {
-//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
-//                    if (ui.item) {
-//                        $("#user_data_university_address").val(ui.item.address);
-//                    }
-//                },
-//                select: function (event, ui) {
-//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
-//                    $("#user_data_university_address").val(ui.item.address);
-//                }
-//            });
-        });
-    </script>
+    <script src="{{ asset('bundles/acmeeventmanager/js/autocomplete-script.js') }}"></script>
 {% endblock %}
