@@ -20,3 +20,7 @@ composer.phar
 # Node and Bower modules
 node_modules/
 vendor_js/
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
