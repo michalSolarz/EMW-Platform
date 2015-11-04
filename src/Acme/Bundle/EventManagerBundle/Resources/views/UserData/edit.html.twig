@@ -1,4 +1,15 @@
-{% extends 'base-frontend.html.twig' %}
+{% set parent = 'base.html.twig' %}
+{% if is_granted('ROLE_USER') and is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_USER') %}
+    {% set parent = 'base-frontend.html.twig' %}
+{% else %}
+    {% set parent = 'base-anonymus.html.twig' %}
+{% endif %}
+
+{% extends parent %}
 
 {% block content %}
     <h1>UserData edit</h1>
@@ -22,20 +33,13 @@
     {{ form_row(edit_form.submit, { 'label': 'Submit me' }) }}
     {{ form_end(edit_form, {'render_rest': false}) }}
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('user_data') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            {{ form(delete_form) }}
-        </li>
-    </ul>
-
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
     <script>
         $(function () {
-            $("#country").autocomplete({
+            $("#user_data_country").autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/countries",
@@ -53,7 +57,7 @@
                 minLength: 1,
                 dataType: 'json'
             });
-            $("#faculty").autocomplete({
+            $("#user_data_faculty").autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/faculties",
@@ -71,35 +75,34 @@
                 minLength: 1,
                 dataType: 'json'
             });
-            $("#university_name").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
-                        dataType: 'json',
-                        data: {
-                            searchTerm: request.term,
-                            limit: 5,
-                            order: 'ASC'
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                dataType: 'json',
-                change: function (event, ui) {
-                    $("#university_name").val(ui.item ? ui.item.value : "");
-                    if (ui.item) {
-                        $("#university_address").val(ui.item.address);
-                    }
-                },
-                select: function (event, ui) {
-                    $("#university_name").val(ui.item ? ui.item.value : "");
-                    $("#university_address").val(ui.item.address);
-                }
-            });
+//            $("#user_data_university_name").autocomplete({
+//                source: function (request, response) {
+//                    $.ajax({
+//                        url: "http://localhost/sites/EMW-Platform/web/app_dev.php/api/v1/universities",
+//                        dataType: 'json',
+//                        data: {
+//                            searchTerm: request.term,
+//                            limit: 5,
+//                            order: 'ASC'
+//                        },
+//                        success: function (data) {
+//                            response(data);
+//                        }
+//                    });
+//                },
+//                minLength: 1,
+//                dataType: 'json',
+//                change: function (event, ui) {
+//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
+//                    if (ui.item) {
+//                        $("#user_data_university_address").val(ui.item.address);
+//                    }
+//                },
+//                select: function (event, ui) {
+//                    $("#user_data_university_name").val(ui.item ? ui.item.value : "");
+//                    $("#user_data_university_address").val(ui.item.address);
+//                }
+//            });
         });
     </script>
-
 {% endblock %}

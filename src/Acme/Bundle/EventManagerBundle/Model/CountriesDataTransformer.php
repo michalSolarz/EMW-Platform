@@ -9,7 +9,7 @@
 namespace Acme\Bundle\EventManagerBundle\Model;
 
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -17,7 +17,7 @@ class CountriesDataTransformer implements DataTransformerInterface
 {
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ObjectManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }

@@ -145,7 +145,7 @@ class EventParticipantsRepository extends EntityRepository
     public function getAllParticipants(Event $event)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname')
+            ->select('eventParticipants.createdAt AS joinedAt, user.id AS userId, user.username, user.email, data.name, data.surname, data.gender, data.nationality, data.fieldOfStudies, data.yearOfStudies, data.phoneNumber, data.isVegetarian, data.needsVisa')
             ->from('AcmeEventManagerBundle:EventParticipants', 'eventParticipants')
             ->where('eventParticipants.event = :event')
             ->leftJoin('eventParticipants.user', 'user')

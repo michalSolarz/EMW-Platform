@@ -10,7 +10,7 @@ namespace Acme\Bundle\EventManagerBundle\Model;
 
 
 use Acme\Bundle\EventManagerBundle\Entity\Faculty;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class FacultiesDataTransformer implements DataTransformerInterface
@@ -18,7 +18,7 @@ class FacultiesDataTransformer implements DataTransformerInterface
     private $entityManager;
     private $creationHandler;
 
-    public function __construct(EntityManager $entityManager, CreationHandler $creationHandler)
+    public function __construct(ObjectManager $entityManager, CreationHandler $creationHandler)
     {
         $this->entityManager = $entityManager;
         $this->creationHandler = $creationHandler;

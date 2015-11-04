@@ -1,4 +1,16 @@
-{% extends 'base-frontend.html.twig' %}
+{% set parent = 'base.html.twig' %}
+{% if is_granted('ROLE_USER') and is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_USER') %}
+    {% set parent = 'base-frontend.html.twig' %}
+{% else %}
+    {% set parent = 'base-anonymus.html.twig' %}
+{% endif %}
+
+{% extends parent %}
+
 {% form_theme form '@AcmeEventManager/Form/label.html.twig' %}
 
 {% block content %}
@@ -24,15 +36,6 @@
 
     {{ form_row(form.submit) }}
     {{ form_end(form, {'render_rest': false}) }}
-
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('user_data') }}">
-                Back to the list
-            </a>
-        </li>
-    </ul>
 {% endblock %}
 {% block scripts %}
     {{ parent() }}

@@ -93,7 +93,17 @@ class CSVExportHandler
 
         $handle = fopen('php://output', 'w+');
         foreach ($participants as $participant) {
-            fputcsv($handle, array($participant['username'], $participant['email'], $participant['name'], $participant['surname']));
+            fputcsv($handle, array($participant['username'],
+                $participant['email'],
+                $participant['name'],
+                $participant['surname'],
+                $participant['gender'],
+                $participant['nationality'],
+                $participant['fieldOfStudies'],
+                $participant['yearOfStudies'],
+                $participant['phoneNumber'],
+                $participant['isVegetarian'],
+                $participant['needsVisa'],));
         }
         fclose($handle);
         return $handle;

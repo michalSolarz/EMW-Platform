@@ -6,7 +6,7 @@ use Acme\Bundle\EventManagerBundle\Model\CountriesDataTransformer;
 use Acme\Bundle\EventManagerBundle\Model\CreationHandler;
 use Acme\Bundle\EventManagerBundle\Model\FacultiesDataTransformer;
 use Acme\Bundle\EventManagerBundle\Model\UniversityDataTransformer;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,7 +16,7 @@ class UserDataType extends AbstractType
     private $entityManager;
     private $creationHandler;
 
-    public function __construct(EntityManager $entityManager, CreationHandler $creationHandler)
+    public function __construct(ObjectManager $entityManager, CreationHandler $creationHandler)
     {
         $this->entityManager = $entityManager;
         $this->creationHandler = $creationHandler;

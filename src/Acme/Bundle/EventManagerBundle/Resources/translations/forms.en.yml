@@ -1,6 +1,10 @@
 forms:
   #UniversityDataType
   user_data:
+    name:
+      label: "Name:"
+    surname:
+      label: "Surname:"
     gender:
       label: "Gender:"
       choices:
