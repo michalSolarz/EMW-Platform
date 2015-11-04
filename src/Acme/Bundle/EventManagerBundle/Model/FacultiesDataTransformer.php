@@ -24,32 +24,29 @@ class FacultiesDataTransformer implements DataTransformerInterface
         $this->creationHandler = $creationHandler;
     }
 
-    public function transform($country)
+    public function transform($faculty)
     {
-        if (null === $country) {
-            return '';
-        }
-        return $country->getName();
+        if ($faculty == null)
+            return null;
+
+        return array('name' => $faculty->getName());
     }
 
     public function reverseTransform($facultyString)
     {
-        // no issue number? It's optional, so that's ok
-        if (!$facultyString) {
+        if ($facultyString === null || $facultyString === '')
             return null;
-        }
 
-        $faculty = $this->entityManager
-            ->getRepository('AcmeEventManagerBundle:Faculty')
-            // query for the issue with this id
-            ->findOneBy(array('name' => $facultyString));
+        $facultyEntity = $this->entityManager->getRepository('AcmeEventManagerBundle:Faculty')->findOneBy(array(
+            'name' => $facultyString['name']));
 
-        if (!$faculty) {
+        if ($facultyEntity === null) {
             $facultyEntity = new Faculty();
-            $facultyEntity->setName($facultyString);
+            $facultyEntity->setName($facultyString['name']);
             $this->creationHandler->handleCreation($facultyEntity);
+            $this->entityManager->persist($facultyEntity);
         }
 
-        return $faculty;
+        return $facultyEntity;
     }
 }

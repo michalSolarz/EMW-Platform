@@ -24,12 +24,12 @@ class UniversityDataTransformer implements DataTransformerInterface
         $this->creationHandler = $creationHandler;
     }
 
-    public function transform($country)
+    public function transform($university)
     {
-        if ($country == null)
+        if ($university == null)
             return null;
 
-        return array('name' => $country->getName(), 'address' => $country->getAddress());
+        return array('name' => $university->getName(), 'address' => $university->getAddress());
     }
 
     public function reverseTransform($universityString)

@@ -65,6 +65,12 @@ class UserDataController extends Controller
      */
     public function newAction()
     {
+        $userData = $this->getUser()->getData();
+
+        if ($userData) {
+            return $this->redirect($this->generateUrl('user_data_edit'));
+        }
+
         $entity = new UserData();
         $form = $this->createCreateForm($entity);
 
@@ -80,19 +86,16 @@ class UserDataController extends Controller
      */
     public function editAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $id = $this->getUser()->getData();
+        $userData = $this->getUser()->getData();
 
-        $entity = $em->getRepository('AcmeEventManagerBundle:UserData')->find($id);
-
-        if (!$entity) {
+        if (!$userData) {
             return $this->redirect($this->generateUrl('user_data_new'));
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($userData);
 
         return $this->render('AcmeEventManagerBundle:UserData:edit.html.twig', array(
-            'entity' => $entity,
+            'entity' => $userData,
             'edit_form' => $editForm->createView(),
         ));
     }

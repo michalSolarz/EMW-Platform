@@ -70,7 +70,7 @@ class UserDataType extends AbstractType
                 new UniversityDataType(), array(
                     'label' => 'forms.user_data.university.label'))
             ->add('faculty',
-                'text', array(
+                new FacultyDataType(), array(
                     'label' => 'forms.user_data.faculty.label'))
             ->add('surname',
                 'text', array(

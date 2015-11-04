@@ -35,5 +35,8 @@ forms:
           label: "University address:"
     faculty:
       label: "Faculty:"
+      child:
+        name:
+          label: "Faculty name:"
     submit:
       label: "Add personal data."
