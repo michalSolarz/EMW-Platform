@@ -131,14 +131,15 @@ class UserDataController extends Controller
      * Displays a form to edit an existing UserData entity.
      *
      */
-    public function editAction($id)
+    public function editAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $this->getUser()->getId();
 
         $entity = $em->getRepository('AcmeEventManagerBundle:UserData')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find UserData entity.');
+            return $this->redirect($this->generateUrl('user_data_new'));
         }
 
         $editForm = $this->createEditForm($entity);

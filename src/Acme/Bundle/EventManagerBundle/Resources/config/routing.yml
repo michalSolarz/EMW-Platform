@@ -40,5 +40,5 @@ acme_api_user_data:
     type: rest
 
 acme_event_manager_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: AcmeEventManagerBundle:Default:index }
+    path:     /
+    defaults: { _controller: AcmeEventManagerBundle:Default:home }

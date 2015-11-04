@@ -59,6 +59,16 @@
                             <a href="{{ path('admin_event') }}">Events</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li >
+                            <a href="{{ path('user_data_edit') }}">User data</a>
+                        </li>
+                        <li >
+                            <a href="{{ path('fos_user_security_logout') }}">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Logout</a>
+                        </li>
+                    </ul>
                 </nav>
             {% endblock %}
         </div>

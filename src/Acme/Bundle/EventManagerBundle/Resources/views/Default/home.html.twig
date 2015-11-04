@@ -1,0 +1,12 @@
+{% set parent = 'base.html.twig' %}
+{% if is_granted('ROLE_USER') and is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_ADMIN') %}
+    {% set parent = 'base-backend.html.twig' %}
+{% elseif is_granted('ROLE_USER') %}
+    {% set parent = 'base-frontend.html.twig' %}
+{% else %}
+    {% set parent = 'base-anonymus.html.twig' %}
+{% endif %}
+
+{% extends parent %}
