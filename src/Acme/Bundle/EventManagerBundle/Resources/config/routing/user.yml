@@ -7,5 +7,5 @@ admin_display_user:
     defaults: { _controller: AcmeEventManagerBundle:User:displayUser }
 
 admin_manage_user_roles:
-    path:     /manageUserRoles
+    path:     /manageUserRoles/{id}/
     defaults: { _controller: AcmeEventManagerBundle:User:manageUserRoles }

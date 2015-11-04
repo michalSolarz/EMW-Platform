@@ -31,5 +31,8 @@
         <b>Year of studies: </b>{{ user.data.yearOfStudies }}<br>
         <b>Phone number: </b>{{ user.data.phoneNumber }}<br>
     {% endif %}
-    <a href="{{ path('admin_list_users') }}">Get back to user list</a>
+    <a href="{{ path('admin_list_users') }}">Get back to user list</a><br>
+    {% if is_granted('ROLE_GOD') %}
+        <a href="{{ path('admin_manage_user_roles', {'id': user.id}) }}">Manage user roles</a>
+    {% endif %}
 {% endblock %}

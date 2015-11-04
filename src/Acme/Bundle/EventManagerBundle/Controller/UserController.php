@@ -3,6 +3,7 @@
 namespace Acme\Bundle\EventManagerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
@@ -31,9 +32,40 @@ class UserController extends Controller
         ));
     }
 
-    public function manageUserRolesAction()
+    public function manageUserRolesAction(Request $request, $id)
     {
-        return $this->render('AcmeEventManagerBundle:User:manageUserRoles.html.twig', array(// ...
+        $em = $this->getDoctrine()->getManager();
+        $modifiedUser = $em->getRepository('AcmeEventManagerBundle:User')->find($id);
+
+        if (!$this->getUser()->hasRole('ROLE_GOD') || $modifiedUser === $this->getUser()) {
+            return $this->redirect($this->generateUrl('admin_list_users'));
+        }
+
+        $rolesInDatabase = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_GOD');
+
+        $userRoles = $modifiedUser->getRoles();
+
+        $availableRoles = array_diff($rolesInDatabase, $userRoles);
+
+        if (($key = array_search('ROLE_USER', $userRoles)) !== false) {
+            unset($userRoles[$key]);
+        }
+
+        if ($request->isMethod('POST')) {
+            if ($request->get('removeRole') != null && in_array($request->get('removeRole'), $userRoles)) {
+                if (!$modifiedUser->hasRole('ROLE_USER'))
+                    $modifiedUser->addRole('ROLE_USER');
+                $modifiedUser->removeRole($request->get('removeRole'));
+            }
+            if ($request->get('addRole') != null && in_array($request->get('addRole'), $availableRoles))
+                $modifiedUser->addRole($request->get('addRole'));
+
+            $em->flush();
+            return $this->redirect($this->generateUrl('admin_list_users'));
+        }
+        return $this->render('AcmeEventManagerBundle:User:manageUserRoles.html.twig', array(
+            'userRoles' => $userRoles,
+            'availableRoles' => $availableRoles,
         ));
     }
 

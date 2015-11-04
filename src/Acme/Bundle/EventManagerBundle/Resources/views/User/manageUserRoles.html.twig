@@ -3,5 +3,27 @@
 {% block title %}AcmeEventManagerBundle:User:manageUserRoles{% endblock %}
 
 {% block content -%}
-    <h1>Welcome to the User:manageUserRoles page</h1>
+    {% if userRoles != null %}
+        <form method="post">
+            <select name="removeRole">
+                {% for role in userRoles %}
+                    <option value="{{ role }}">{{ role }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Remove role</button>
+        </form>
+    {% endif %}
+
+    {% if availableRoles != null %}
+        <form method="post">
+            <select name="addRole">
+                {% for role in availableRoles %}
+                    <option value="{{ role }}">{{ role }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add role</button>
+        </form>
+    {% endif %}
+    {{ dump(userRoles) }}
+    {{ dump(availableRoles) }}
 {% endblock %}
