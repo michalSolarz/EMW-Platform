@@ -14,6 +14,8 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/acmeeventmanager/css/jquery-ui.css') }}">
 {% endblock %}
+{% block title -%}{{ parent() }} - Add user data{% endblock title %}
+
 {% form_theme form '@AcmeEventManager/Form/label.html.twig' %}
 
 {% block content %}

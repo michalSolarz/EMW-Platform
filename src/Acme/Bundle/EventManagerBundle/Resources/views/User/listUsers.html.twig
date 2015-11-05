@@ -1,6 +1,7 @@
 {% extends "base-backend.html.twig" %}
 
-{% block title %}AcmeEventManagerBundle:User:listUsers{% endblock %}
+{% block title -%}{{ parent() }} - Users{% endblock title %}
+
 
 {% block content -%}
     <table class="table">

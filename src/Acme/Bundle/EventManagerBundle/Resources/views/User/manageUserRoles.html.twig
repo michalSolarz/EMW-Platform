@@ -1,6 +1,6 @@
 {% extends "base-backend.html.twig" %}
+{% block title -%}{{ parent() }} - Manage user roles{% endblock title %}
 
-{% block title %}AcmeEventManagerBundle:User:manageUserRoles{% endblock %}
 
 {% block content -%}
     {% if userRoles != null %}
@@ -24,6 +24,4 @@
             <button type="submit">Add role</button>
         </form>
     {% endif %}
-    {{ dump(userRoles) }}
-    {{ dump(availableRoles) }}
 {% endblock %}

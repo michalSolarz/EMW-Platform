@@ -1,4 +1,6 @@
 {% extends('base-backend.html.twig') %}
+{% block title -%}{{ parent() }} - Events papers{% endblock title %}
+
 {% block content %}
     <div class="pull-right">
         <a href="{{ path('admin_export_paper_to_pdf', {'eventId': event.id, 'type': parameters.type, 'period': parameters.period}) }}">Export

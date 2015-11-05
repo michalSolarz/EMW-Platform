@@ -1,13 +1,14 @@
 {% extends 'base-backend.html.twig' %}
+{% block title -%}{{ parent() }} - Add country{% endblock title %}
 
-{% block body -%}
+{% block content -%}
     <h1>Country creation</h1>
 
     {{ form(form) }}
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('country') }}">
+            <a href="{{ path('admin_country') }}">
                 Back to the list
             </a>
         </li>

@@ -14,6 +14,8 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/acmeeventmanager/css/jquery-ui.css') }}">
 {% endblock %}
+{% block title -%}{{ parent() }} - Edit user data{% endblock title %}
+
 {% block content %}
     <h1>UserData edit</h1>
 

@@ -1,6 +1,6 @@
 {% extends 'base-frontend.html.twig' %}
 
-{% block body -%}
+{% block content -%}
     <h1>Paper list</h1>
 
     <table class="records_list">
@@ -45,7 +45,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('paper_new') }}">
+            <a href="{{ path('add_paper') }}">
                 Create a new entry
             </a>
         </li>
