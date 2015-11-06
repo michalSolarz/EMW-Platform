@@ -259,7 +259,7 @@ class UniversityController extends Controller
         $filename = 'universities-list-export-' . $timestamp->format('Y-m-d H-i-s') . '.csv';
         $response = new StreamedResponse();
         $response->setCallback(function () {
-            $this->get('acme_event_manager.csv_export_handler')->exportCountryList();
+            $this->get('acme_event_manager.csv_export_handler')->exportUniversityList();
         });
 
         $response->setStatusCode(200);

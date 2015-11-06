@@ -63,7 +63,7 @@ class CSVExportHandler
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-        $qb->select('university.name')
+        $qb->select('university.name, university.address')
             ->from('AcmeEventManagerBundle:University', 'university');
         $query = $qb->getQuery();
         $universityList = $query->getArrayResult();
@@ -92,6 +92,21 @@ class CSVExportHandler
         $participants = $this->participantsProvider->provideParticipants($event, $this->eventParticipantsParameters['type'], $this->eventParticipantsParameters['period']);
 
         $handle = fopen('php://output', 'w+');
+        fputcsv($handle, array('username',
+            'email',
+            'name',
+            'surname',
+            'gender',
+            'nationality',
+            'country name',
+            'universit nName',
+            'university address',
+            'faculty name',
+            'field of studies',
+            'year of studies',
+            'phone number',
+            'is vegetarian',
+            'needs visa',));
         foreach ($participants as $participant) {
             $participant = $this->participantsParser($participant);
             fputcsv($handle, array($participant['username'],
