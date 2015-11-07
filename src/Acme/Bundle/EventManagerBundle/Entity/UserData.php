@@ -96,6 +96,10 @@ class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInte
      */
     private $yearOfStudies;
     /**
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    private $isPhd;
+    /**
      * @ORM\Column(type="string")
      */
     private $phoneNumber;
@@ -296,6 +300,23 @@ class UserData implements StampedAtCreationInterface, StampedAtEditionEntityInte
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsPhd()
+    {
+        return $this->isPhd;
+    }
+
+    /**
+     * @param mixed $isPhd
+     */
+    public function setIsPhd($isPhd)
+    {
+        $this->isPhd = $isPhd;
+    }
+    
 
     /**
      * Get phoneNumber

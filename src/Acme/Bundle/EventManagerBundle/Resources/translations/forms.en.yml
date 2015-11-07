@@ -16,6 +16,8 @@ forms:
       label: "Field of studies:"
     yearOfStudies:
       label: "Year of studies:"
+    isPhd:
+      label: "Are You a Phd student?"
     phoneNumber:
       label: "Phone number:"
     isVegetarian:

@@ -17,27 +17,27 @@
 {% block title -%}{{ parent() }} - Edit user data{% endblock title %}
 
 {% block content %}
-    <h1>UserData edit</h1>
-
     {{ form_start(edit_form) }}
     {{ form_errors(edit_form) }}
 
-    {{ form_row(edit_form.name) }}
-    {{ form_row(edit_form.surname) }}
-    {{ form_row(edit_form.faculty) }}
-    {{ form_row(edit_form.university) }}
-    {{ form_row(edit_form.country) }}
-    {{ form_row(edit_form.acceptedTerms) }}
-    {{ form_row(edit_form.needsVisa) }}
-    {{ form_row(edit_form.isVegetarian) }}
-    {{ form_row(edit_form.phoneNumber) }}
-    {{ form_row(edit_form.yearOfStudies) }}
-    {{ form_row(edit_form.fieldOfStudies) }}
-    {{ form_row(edit_form.nationality) }}
-    {{ form_row(edit_form.gender) }}
-    {{ form_row(edit_form._token) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.gender) }}
+    {{ form_row(form.university) }}
+    {{ form_row(form.faculty) }}
+    {{ form_row(form.yearOfStudies) }}
+    {{ form_row(form.fieldOfStudies) }}
+    {{ form_row(form.isPhd) }}
+    {{ form_row(form.country) }}
+    {{ form_row(form.nationality) }}
+    {{ form_row(form.needsVisa) }}
+    {{ form_row(form.isVegetarian) }}
+    {{ form_row(form.phoneNumber) }}
+    {{ form_row(form.acceptedTerms) }}
+    {{ form_row(form._token) }}
 
-    {{ form_row(edit_form.submit, { 'label': 'Submit me' }) }}
+
+    {{ form_row(edit_form.submit, { 'label': 'Update data' }) }}
     {{ form_end(edit_form, {'render_rest': false}) }}
 
 {% endblock %}

@@ -7,7 +7,6 @@ use Acme\Bundle\EventManagerBundle\Entity\Paper;
 use Acme\Bundle\EventManagerBundle\Form\PaperType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Paper controller.
@@ -17,6 +16,10 @@ class PaperController extends Controller
 {
     public function addPaperAction(Request $request, $eventId)
     {
+        $userData = $this->getUser()->getData();
+        if ($userData == null)
+            return $this->redirect($this->generateUrl('user_data_new', array('dataRequired' => true)));
+
         $em = $this->get('doctrine.orm.default_entity_manager');
         $additionHandler = $this->get('acme_event_manager.paper_addition_handler');
 

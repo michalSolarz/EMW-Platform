@@ -19,24 +19,26 @@
 {% form_theme form '@AcmeEventManager/Form/label.html.twig' %}
 
 {% block content %}
-    <h1>UserData creation</h1>
-
+    {% if dataRequired == "true" or  dataRequired == 1 %}
+        <h2>You need to add Your personal data before adding paper.</h2>
+    {% endif %}
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
     {{ form_row(form.name) }}
     {{ form_row(form.surname) }}
-    {{ form_row(form.faculty) }}
+    {{ form_row(form.gender) }}
     {{ form_row(form.university) }}
+    {{ form_row(form.faculty) }}
+    {{ form_row(form.yearOfStudies) }}
+    {{ form_row(form.fieldOfStudies) }}
+    {{ form_row(form.isPhd) }}
     {{ form_row(form.country) }}
-    {{ form_row(form.acceptedTerms) }}
+    {{ form_row(form.nationality) }}
     {{ form_row(form.needsVisa) }}
     {{ form_row(form.isVegetarian) }}
     {{ form_row(form.phoneNumber) }}
-    {{ form_row(form.yearOfStudies) }}
-    {{ form_row(form.fieldOfStudies) }}
-    {{ form_row(form.nationality) }}
-    {{ form_row(form.gender) }}
+    {{ form_row(form.acceptedTerms) }}
     {{ form_row(form._token) }}
 
     {{ form_row(form.submit) }}

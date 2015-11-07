@@ -63,7 +63,7 @@ class UserDataController extends Controller
      * Displays a form to create a new UserData entity.
      *
      */
-    public function newAction()
+    public function newAction($dataRequired)
     {
         $userData = $this->getUser()->getData();
 
@@ -75,6 +75,7 @@ class UserDataController extends Controller
         $form = $this->createCreateForm($entity);
 
         return $this->render('AcmeEventManagerBundle:UserData:new.html.twig', array(
+            'dataRequired' => $dataRequired,
             'entity' => $entity,
             'form' => $form->createView(),
         ));

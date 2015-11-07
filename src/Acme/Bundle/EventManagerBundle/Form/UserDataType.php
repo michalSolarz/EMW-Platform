@@ -45,6 +45,11 @@ class UserDataType extends AbstractType
             ->add('yearOfStudies',
                 'text', array(
                     'label' => 'forms.user_data.yearOfStudies.label'))
+            ->add('isPhd',
+                'checkbox', array(
+                    'required' => false,
+                    'value' => true,
+                    'label' => 'forms.user_data.isPhd.label'))
             ->add('phoneNumber',
                 'text', array(
                     'label' => 'forms.user_data.phoneNumber.label'))

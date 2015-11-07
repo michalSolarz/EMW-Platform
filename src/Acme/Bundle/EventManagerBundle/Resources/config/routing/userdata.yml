@@ -1,6 +1,6 @@
 user_data_new:
-    path:     /new
-    defaults: { _controller: "AcmeEventManagerBundle:UserData:new" }
+    path:     /new/{dataRequired}
+    defaults: { _controller: "AcmeEventManagerBundle:UserData:new", dataRequired: "false" }
 
 user_data_create:
     path:     /create
